@@ -50,7 +50,7 @@
     <Compile Include="App.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Arguments.cs">
+    <Compile Include="ConsoleArguments.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Column.cs" />
@@ -79,10 +79,11 @@
     <Compile Include="Reflect.cs" />
     <Compile Include="SingleSelectionMenu.cs" />
     <Compile Include="SmallLargeImage.cs" />
+    <Compile Include="StringList.cs" />
     <Compile Include="Strings.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="StringSeperator.cs">
+    <Compile Include="StringListCombiner.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Web.cs">

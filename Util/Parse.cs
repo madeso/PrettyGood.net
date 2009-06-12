@@ -8,6 +8,7 @@ namespace PrettyGood.Util
 {
 	public static class Parse
 	{
+		// todo: do more teststing
 		public static DateTime DateTime(string dateString, params string[] formats)
 		{
 			CultureInfo us = new CultureInfo("en-US");

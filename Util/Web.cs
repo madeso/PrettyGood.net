@@ -54,34 +54,27 @@ namespace PrettyGood.Util
 			request.ReadWriteTimeout = 1000;
 
 			// execute the request
-			try
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
 			{
-				using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+				// we will read data via the response stream
+				using (Stream resStream = response.GetResponseStream())
 				{
-					// we will read data via the response stream
-					using (Stream resStream = response.GetResponseStream())
+					byte[] buf = new byte[8192];
+					do
 					{
-						byte[] buf = new byte[8192];
-						do
-						{
-							count = resStream.Read(buf, 0, buf.Length);
+						count = resStream.Read(buf, 0, buf.Length);
 
-							if (count != 0)
-							{
-								string name = response.CharacterSet;
-								if (false == string.IsNullOrEmpty(name)) enc = Encoding.GetEncoding(response.CharacterSet);
-								tempString = enc.GetString(buf, 0, count);
-								//Encoding.ASCII.GetString(buf, 0, count);
-								sb.Append(tempString);
-							}
+						if (count != 0)
+						{
+							string name = response.CharacterSet;
+							if (false == string.IsNullOrEmpty(name)) enc = Encoding.GetEncoding(response.CharacterSet);
+							tempString = enc.GetString(buf, 0, count);
+							//Encoding.ASCII.GetString(buf, 0, count);
+							sb.Append(tempString);
 						}
-						while (count > 0);
 					}
+					while (count > 0);
 				}
-			}
-			catch (WebException ex)
-			{
-				Console.WriteLine(ex.ToString());
 			}
 
 			return sb.ToString();
@@ -90,6 +83,36 @@ namespace PrettyGood.Util
 		public static void OpenUrl(string url)
 		{
 			Process.Start(url);
+		}
+
+		public static void DownloadFile(string url, string target)
+		{
+			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+			request.ReadWriteTimeout = 1000;
+
+			// execute the request
+			using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+			{
+				// we will read data via the response stream
+				using (Stream resStream = response.GetResponseStream())
+				{
+					using (FileStream fs = File.Open(target, FileMode.Create))
+					{
+						byte[] buf = new byte[8192];
+						int count = 0;
+						do
+						{
+							count = resStream.Read(buf, 0, buf.Length);
+
+							if (count != 0)
+							{
+								fs.Write(buf, 0, count);
+							}
+						}
+						while (count > 0);
+					}
+				}
+			}
 		}
 	}
 }

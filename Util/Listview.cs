@@ -7,6 +7,12 @@ using System.Drawing;
 
 namespace PrettyGood.Util
 {
+	// todo: add sorting
+	// todo: move formating to column/row script
+	// todo: add gui for adding/removing/changing columns
+	// todo: add editiable cels
+	// todo: add filter function
+	// todo: add saving above data
 	public class Listview<T>
 	{
 		ListView view;

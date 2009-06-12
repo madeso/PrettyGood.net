@@ -230,6 +230,12 @@ namespace PrettyGood.Util
 			else return def;
 		}
 
+		public static bool GetAttributeBool(XmlElement element, string name, bool def)
+		{
+			if (HasAttribute(element, name)) return bool.Parse(GetAttributeString(element, name));
+			else return def;
+		}
+
 		public static XmlElement AppendElement(XmlDocument doc, XmlNode cont, string name)
 		{
 			XmlElement el = doc.CreateElement(name);
@@ -250,10 +256,26 @@ namespace PrettyGood.Util
 				string res = GetTextOfSubElementOrNull(node, p);
 				if (res != null) return res;
 			}
-			throw new Exception("node is missing " +  new StringSeperator(", ", " or").Append((object[])ps).ToString() + ", a requested sub node");
+			throw new Exception("node is missing " +  new StringListCombiner(", ", " or").combineFromArray(ps) + ", a requested sub node");
+		}
+
+		public static string GetFirstText(XmlNode node)
+		{
+			foreach (XmlNode n in node.ChildNodes)
+			{
+				string s = GetSmartTextOrNull(n);
+				if (s != null) return s;
+			}
+			throw new Exception("node is missing any text nodes");
 		}
 
 		private static string GetSmartText(XmlNode el)
+		{
+			string s = GetSmartTextOrNull(el);
+			if (s == null) throw new Exception("Failed to get smart text of node");
+			else return s;
+		}
+		private static string GetSmartTextOrNull(XmlNode el)
 		{
 			if (el is XmlText)
 			{
@@ -265,14 +287,14 @@ namespace PrettyGood.Util
 				XmlCDataSection text = (XmlCDataSection)el;
 				return text.Value;
 			}
-			else throw new Exception("Failed to get smart text of node");
+			else return null;
 		}
 
 		public static string GetTextOfSubElementOrNull(XmlNode node, string p)
 		{
 			XmlElement el = node[p];
 			if (el == null) return null;
-			else return GetSmartText(el.FirstChild);
+			else return GetSmartTextOrNull(el.FirstChild);
 		}
 	}
 }

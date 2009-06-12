@@ -23,6 +23,8 @@ namespace PrettyGood.Util
 			return MessageBox.Show(message, App.ReadableAppName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
 		}
 
+
+		// todo: it looks funny, fix it
 		public static void IntegrateEnumIntoToolstrip<T>(ToolStripMenuItem root, Action<T> action, T current) where T: IComparable
 		{
 			SingleSelectionMenu ss = new SingleSelectionMenu(root);
@@ -60,7 +62,7 @@ namespace PrettyGood.Util
 			return list;
 		}*/
 
-		public static object SmartInvoke(Control c, Delegate d, params object[] args)
+		public static object InvokeOrCall(Control c, Delegate d, params object[] args)
 		{
 			if (c.InvokeRequired) return c.Invoke(d, args);
 			else return d.DynamicInvoke(args);

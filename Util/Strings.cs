@@ -6,11 +6,6 @@ namespace PrettyGood.Util
 {
 	public static class Strings
 	{
-		public static string Stringify(IEnumerable<string> strings)
-		{
-			return new StringSeperator(", ", " and ").Append(strings).ToString();
-		}
-
 		public static IEnumerable<string> RemoveEmpty(IEnumerable<string> p)
 		{
 			foreach (string s in p)
@@ -19,13 +14,14 @@ namespace PrettyGood.Util
 			}
 		}
 
-		public static IEnumerable<string> sort(IEnumerable<string> strings)
+		public static IEnumerable<string> Sort(IEnumerable<string> strings)
 		{
 			List<string> str = new List<string>(strings);
 			str.Sort();
 			return str;
 		}
-		public static IEnumerable<string> unique(IEnumerable<string> strings)
+
+		public static IEnumerable<string> Unique(IEnumerable<string> strings)
 		{
 			SortedList<string, string> list = new SortedList<string, string>();
 			foreach(string s in strings)
@@ -40,12 +36,14 @@ namespace PrettyGood.Util
 				yield return s.Key;
 			}
 		}
+
 		public static string FirstChars(string s, int count, string extra)
 		{
 			int l = s.Length;
 			if (s.Length + extra.Length > count) return s.Substring(0, count - extra.Length) + extra;
 			else return s;
 		}
+
 		public static string FirstChars(string s, int count)
 		{
 			return FirstChars(s, count, "...");

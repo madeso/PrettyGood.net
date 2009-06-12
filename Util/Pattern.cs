@@ -14,6 +14,7 @@ namespace PrettyGood.Util
 			if (i != patt.Length) throw new Exception("format error");
 		}
 
+		// todo: make parser better
 		private static Node Parse(ref int i, string patt)
 		{
 			Parser p = new Parser();
@@ -104,7 +105,7 @@ namespace PrettyGood.Util
 
 			public override string ToString()
 			{
-				return "(" + new StringSeperator(" ").Append(nodes.ToArray()).ToString() + ")";
+				return "(" + new StringListCombiner(" ").combineFromArray(nodes.ToArray()) + ")";
 			}
 		}
 
@@ -126,6 +127,8 @@ namespace PrettyGood.Util
 			}
 		}
 
+		// todo: add more built-in functions
+		// todo: add external functions?
 		internal static string Eval(List<string> strings, Func<string, string> provider)
 		{
 			string cmd = strings[0].ToLower();

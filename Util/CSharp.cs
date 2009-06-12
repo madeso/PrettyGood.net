@@ -37,5 +37,13 @@ namespace PrettyGood.Util
 				yield return i.Key;
 			}
 		}
+
+		public static IEnumerable<Return> Convert<Return, Argument>(IEnumerable<Argument> e, Func<Argument, Return> c)
+		{
+			foreach (Argument a in e)
+			{
+				yield return c(a);
+			}
+		}
 	}
 }

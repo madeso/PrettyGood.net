@@ -5,13 +5,13 @@ using System.Xml;
 
 namespace PrettyGood.Util
 {
-	public class Arguments
+	public class ConsoleArguments
 	{
-		public Arguments()
+		public ConsoleArguments()
 		{
 		}
 
-		public Arguments(string[] args)
+		public ConsoleArguments(string[] args)
 		{
 			parse(args);
 		}
@@ -55,7 +55,7 @@ namespace PrettyGood.Util
 			else throw new Exception(name + " is not a valid argument action");
 		}
 
-		public Arguments Add(string name, string value)
+		public ConsoleArguments Add(string name, string value)
 		{
 			if (list.ContainsKey(name))
 			{
@@ -67,7 +67,7 @@ namespace PrettyGood.Util
 			}
 			return this;
 		}
-		public Arguments Add(string name)
+		public ConsoleArguments Add(string name)
 		{
 			values.Add(name);
 			return this;

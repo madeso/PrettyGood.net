@@ -4,6 +4,7 @@ using System.Text;
 
 namespace PrettyGood.Util
 {
+	// todo: add parse function from assembly-information
 	public static class App
 	{
 		struct AppData

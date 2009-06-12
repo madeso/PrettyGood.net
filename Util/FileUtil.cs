@@ -17,7 +17,7 @@ namespace PrettyGood.Util
 				path = System.Environment.GetFolderPath(folder);
 			}
 
-			private Combiner(string path)
+			internal Combiner(string path)
 			{
 				this.path = path;
 			}
@@ -57,7 +57,7 @@ namespace PrettyGood.Util
 				{
 					safe = safe.Replace(c, '_');
 				}
-				return Path.Combine(path, safe + "." + extention);
+				return Path.ChangeExtension(Path.Combine(path, safe), extention);
 			}
 
 			private IEnumerable<char> InvalidFileCharacters()
@@ -139,6 +139,11 @@ namespace PrettyGood.Util
 			prc.StartInfo.FileName = windir + @"\explorer.exe";
 			prc.StartInfo.Arguments = p;
 			prc.Start();
+		}
+
+		public static Combiner GetFolder(string folder)
+		{
+			return new Combiner(folder);
 		}
 	}
 }
