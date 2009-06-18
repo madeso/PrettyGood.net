@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections;
 
 namespace PrettyGood.Util
 {
@@ -16,6 +17,7 @@ namespace PrettyGood.Util
 	public class Listview<T>
 	{
 		ListView view;
+		Sorter sorter;
 
 		private class Item
 		{
@@ -23,14 +25,85 @@ namespace PrettyGood.Util
 			public int Index;
 		}
 
+		private class Sorter : IComparer
+		{
+			Listview<T> viewer;
+			CaseInsensitiveComparer cmp = new CaseInsensitiveComparer();
+			public SortOrder SortMethod = SortOrder.Ascending;
+			public Column SelectedColumn = null;
+
+			public Sorter(Listview<T> viewer)
+			{
+				this.viewer = viewer;
+			}
+
+			public int Compare(object x, object y)
+			{
+				if (SelectedColumn == null) return 0;
+				var lx = (ListViewItem)x;
+				var ly = (ListViewItem)y;
+				Item ix = (Item)lx.Tag;
+				Item iy = (Item)ly.Tag;
+				string sx = viewer.resolve(SelectedColumn.Sort, ix.t);
+				string sy = viewer.resolve(SelectedColumn.Sort, iy.t);
+				int result = Strings.StringCompare(sx, sy);// cmp.Compare(sx, sy);
+
+				switch (SortMethod)
+				{
+					case SortOrder.Ascending:
+						return result;
+					case SortOrder.Descending:
+						return -result;
+					default: // case SortOrder.None:
+						return 0;
+				}
+
+			}
+		}
+
 		public Listview(ListView view)
 		{
 			if (null == view) throw new NullReferenceException();
 			this.view = view;
+			sorter = new Listview<T>.Sorter(this);
 
+			view.ListViewItemSorter = sorter;
 			view.View = View.Details;
 			view.SmallImageList = new ImageList();
 			view.LargeImageList = new ImageList();
+
+			view.ColumnClick += new ColumnClickEventHandler(view_ColumnClick);
+		}
+
+		void view_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			Column c = (Column)view.Columns[e.Column].Tag;
+
+			if (c == sorter.SelectedColumn)
+			{
+				if (sorter.SortMethod == SortOrder.Ascending) sorter.SortMethod = SortOrder.Descending;
+				else sorter.SortMethod = SortOrder.Ascending;
+			}
+			else
+			{
+				sorter.SelectedColumn = c;
+				sorter.SortMethod = SortOrder.Ascending;
+			}
+
+			view.Sort();
+			//removeAndAddAll();
+		}
+
+		private void removeAndAddAll()
+		{
+			view.BeginUpdate();
+
+			List<ListViewItem> items = new List<ListViewItem>(view.Items.Count);
+			foreach (ListViewItem v in view.Items) items.Add(v);
+			view.Items.Clear();
+			view.Items.AddRange(items.ToArray());
+
+			view.EndUpdate();
 		}
 
 		public void add(Column c)
@@ -39,6 +112,8 @@ namespace PrettyGood.Util
 			ch.Tag = c;
 			c.Header = ch;
 			view.Columns.Add(ch);
+
+			if (sorter.SelectedColumn == null) sorter.SelectedColumn = c;
 		}
 
 		public void specify(Column c, ColumnHeader ch)
@@ -86,7 +161,7 @@ namespace PrettyGood.Util
 
 			if (bf != null)
 			{
-				it.Font = MakeBold(it.Font, bf(t));
+				it.Font = Gui.MakeBold(it.Font, bf(t));
 			}
 
 			SmallLargeImage si = null;
@@ -104,7 +179,7 @@ namespace PrettyGood.Util
 
 			foreach (Column c in Columns)
 			{
-				string v = resolve(c.Pattern, t);
+				string v = resolve(c.Display, t);
 				if (first)
 				{
 					it.Text = v;
@@ -126,11 +201,6 @@ namespace PrettyGood.Util
 				list.Images.Add(emptyBitmap);
 			}
 			list.Images[index] = image;
-		}
-
-		private static Font MakeBold(Font font, bool bold)
-		{
-			return new Font(font, bold ? FontStyle.Bold : FontStyle.Regular);
 		}
 
 		private ListViewGroup GetGroup(string p)

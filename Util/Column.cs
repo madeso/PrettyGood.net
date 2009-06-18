@@ -8,13 +8,14 @@ namespace PrettyGood.Util
 {
 	public class Column
 	{
-		string display;
-		Pattern defaultPattern;
+		string title;
+		Pattern displayPattern;
+		Pattern sortPattern = null;
 
 		public Column(string name)
 		{
-			display = name;
-			defaultPattern = new Pattern("eval " + name);
+			this.title = name;
+			displayPattern = new Pattern("eval " + name);
 		}
 
 		ColumnHeader header;
@@ -34,14 +35,23 @@ namespace PrettyGood.Util
 
 		public void updateText()
 		{
-			if (header != null) header.Text = display;
+			if (header != null) header.Text = title;
 		}
 
-		public Pattern Pattern
+		public Pattern Display
 		{
 			get
 			{
-				return defaultPattern;
+				return displayPattern;
+			}
+		}
+
+		public Pattern Sort
+		{
+			get
+			{
+				if (sortPattern == null) return displayPattern;
+				else return sortPattern;
 			}
 		}
 	}

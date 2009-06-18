@@ -23,6 +23,10 @@ namespace PrettyGood.Util
 			return MessageBox.Show(message, App.ReadableAppName, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
 		}
 
+		public static Font MakeBold(Font font, bool bold)
+		{
+			return new Font(font, bold ? FontStyle.Bold : FontStyle.Regular);
+		}
 
 		// todo: it looks funny, fix it
 		public static void IntegrateEnumIntoToolstrip<T>(ToolStripMenuItem root, Action<T> action, T current) where T: IComparable
