@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using System.Net;
 using System.Diagnostics;
+using System.Xml;
 
 namespace PrettyGood.Util
 {
@@ -46,8 +47,6 @@ namespace PrettyGood.Util
 		public static string FetchString(string url, ref Encoding enc)
 		{
 			// used to build entire input
-			StringBuilder sb = new StringBuilder();
-			string tempString = null;
 			int count = 0;
 
 			HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -59,23 +58,47 @@ namespace PrettyGood.Util
 				// we will read data via the response stream
 				using (Stream resStream = response.GetResponseStream())
 				{
+					MemoryStream ms = new MemoryStream();
 					byte[] buf = new byte[8192];
 					do
 					{
 						count = resStream.Read(buf, 0, buf.Length);
-
-						if (count != 0)
-						{
-							string name = response.CharacterSet;
-							if (false == string.IsNullOrEmpty(name)) enc = Encoding.GetEncoding(response.CharacterSet);
-							tempString = enc.GetString(buf, 0, count);
-							//Encoding.ASCII.GetString(buf, 0, count);
-							sb.Append(tempString);
-						}
+						ms.Write(buf, 0, count);
 					}
 					while (count > 0);
+					if (false == string.IsNullOrEmpty(response.CharacterSet)) enc = Encoding.GetEncoding(response.CharacterSet);
+
+					string temp = GetString(ms, enc);
+					Encoding oldEnc = enc;
+					try
+					{
+						XmlDocument doc = new XmlDocument();
+						Xml.FromSource(temp).load(doc);
+						enc = Xml.GetEncoding(doc, oldEnc);
+					}
+					catch (Exception) {}
+					if (enc != oldEnc) temp = GetString(ms, enc);
+
+					return temp;
 				}
 			}
+		}
+
+		private static string GetString(MemoryStream ms, Encoding enc)
+		{
+			ms.Seek(0, SeekOrigin.Begin);
+			int count = 0;
+			byte[] buf = new byte[8192];
+			StringBuilder sb = new StringBuilder();
+			do
+			{
+				count = ms.Read(buf, 0, buf.Length);
+				if (count > 0)
+				{
+					string tempString = enc.GetString(buf, 0, count);
+					sb.Append(tempString);
+				}
+			} while (count > 0);
 
 			return sb.ToString();
 		}

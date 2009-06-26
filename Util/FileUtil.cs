@@ -8,88 +8,27 @@ namespace PrettyGood.Util
 {
 	public static class FileUtil
 	{
-		public class Combiner
+		private static PathBuilder OsFilePath(Environment.SpecialFolder folder)
 		{
-			string path;
-
-			internal Combiner(Environment.SpecialFolder folder)
-			{
-				path = System.Environment.GetFolderPath(folder);
-			}
-
-			internal Combiner(string path)
-			{
-				this.path = path;
-			}
-
-			public Combiner dir(string name)
-			{
-				string safe = name;
-				List<char> cs = new List<char>(InvalidPathCharacters());
-				foreach (char c in cs)
-				{
-					safe = safe.Replace(c, '_');
-				}
-				return new Combiner(Path.Combine(path, safe));
-			}
-			const string kExtraInvalidCharacters = ".:\' !?()#,&";
-
-			private IEnumerable<char> InvalidPathCharacters()
-			{
-				foreach (char c in System.IO.Path.GetInvalidPathChars())
-					yield return c;
-				foreach (char c in kExtraInvalidCharacters)
-					yield return c;
-			}
-
-			public string Directory
-			{
-				get
-				{
-					return path;
-				}
-			}
-
-			public string file(string name, string extention)
-			{
-				string safe = name;
-				foreach (char c in InvalidFileCharacters())
-				{
-					safe = safe.Replace(c, '_');
-				}
-				return Path.ChangeExtension(Path.Combine(path, safe), extention);
-			}
-
-			private IEnumerable<char> InvalidFileCharacters()
-			{
-				foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-					yield return c;
-				foreach (char c in kExtraInvalidCharacters)
-					yield return c;
-			}
+			return new PathBuilder(folder);
 		}
-
-		private static Combiner OsFilePath(Environment.SpecialFolder folder)
-		{
-			return new Combiner(folder);
-		}
-		private static Combiner RelativeApplicationPath(Combiner c)
+		private static PathBuilder RelativeApplicationPath(PathBuilder c)
 		{
 			return c.dir(App.Company).dir(App.AppCode);
 		}
-		private static Combiner PathFor(Environment.SpecialFolder folder)
+		private static PathBuilder PathFor(Environment.SpecialFolder folder)
 		{
 			return RelativeApplicationPath(OsFilePath(folder));
 		}
-		public static Combiner GetCommonPathFor()
+		public static PathBuilder GetCommonPathFor()
 		{
 			return PathFor(Environment.SpecialFolder.CommonApplicationData);
 		}
-		public static Combiner GetUserPathFor()
+		public static PathBuilder GetUserPathFor()
 		{
 			return PathFor(Environment.SpecialFolder.ApplicationData);
 		}
-		public static Combiner GetUserDocument()
+		public static PathBuilder GetUserDocument()
 		{
 			return OsFilePath(Environment.SpecialFolder.MyDocuments);
 		}
@@ -141,9 +80,14 @@ namespace PrettyGood.Util
 			prc.Start();
 		}
 
-		public static Combiner GetFolder(string folder)
+		public static PathBuilder GetFolder(string folder)
 		{
-			return new Combiner(folder);
+			return new PathBuilder(folder);
+		}
+
+		public static bool Has(FileAttributes at, FileAttributes val)
+		{
+			return (at & val) == val;
 		}
 	}
 }

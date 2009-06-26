@@ -57,6 +57,7 @@
     <Compile Include="CSharp.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DateClassification.cs" />
     <Compile Include="Delegates.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -74,6 +75,7 @@
     <Compile Include="Parse.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="PathBuilder.cs" />
     <Compile Include="Pattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflect.cs" />

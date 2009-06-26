@@ -7,13 +7,13 @@ namespace PrettyGood.Util
 {
 	public static class Xml
 	{
-		public static bool HasAttribute(XmlElement element, string search)
+		public static bool HasAttribute(XmlNode element, string search)
 		{
 			XmlAttribute attribute = element.Attributes[search];
 			return attribute != null;
 		}
 
-		public static string GetAttributeString(XmlElement element, string name)
+		public static string GetAttributeString(XmlNode element, string name)
 		{
 			XmlAttribute attribute = element.Attributes[name];
 			if (attribute == null) throw new Exception(element.Name + " is missing text attribute \"" + name + "\"");
@@ -224,7 +224,7 @@ namespace PrettyGood.Util
 			return map;
 		}
 
-		public static string GetAttributeString(XmlElement element, string name, string def)
+		public static string GetAttributeString(XmlNode element, string name, string def)
 		{
 			if (def==null || HasAttribute(element, name)) return GetAttributeString(element, name);
 			else return def;
@@ -295,6 +295,16 @@ namespace PrettyGood.Util
 			XmlElement el = node[p];
 			if (el == null) return null;
 			else return GetSmartTextOrNull(el.FirstChild);
+		}
+
+		public static Encoding GetEncoding(XmlNode doc, Encoding enc)
+		{
+			XmlNode b = doc;
+			while (b.ParentNode != null) b = b.ParentNode;
+			XmlDocument d = (XmlDocument)b;
+			XmlDeclaration f = d.FirstChild as XmlDeclaration;
+			if( f == null ) return enc;
+			return Encoding.GetEncoding(f.Encoding);
 		}
 	}
 }
