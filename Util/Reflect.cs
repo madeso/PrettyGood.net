@@ -44,14 +44,11 @@ namespace PrettyGood.Util
 			Type tm = typeof(Member);
 			foreach (FieldInfo fi in tc.GetFields())
 			{
-				if (fi.FieldType == tm)
+				object m = fi.GetValue(c);
+				Member mc = m as Member;
+				if (m != null)
 				{
-					object m = fi.GetValue(c);
-					Member mc = m as Member;
-					if (m != null)
-					{
-						yield return mc;
-					}
+					yield return mc;
 				}
 			}
 		}

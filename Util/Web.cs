@@ -46,6 +46,37 @@ namespace PrettyGood.Util
 
 		public static string FetchString(string url, ref Encoding enc)
 		{
+			WebRequest request = WebRequest.Create(url);
+			request.Credentials = CredentialCache.DefaultCredentials;
+			
+			WebResponse response;
+			WebException exp = null;
+
+			try
+			{
+				response = request.GetResponse();
+			}
+			catch(WebException web)
+			{
+				exp = web;
+				response = web.Response;
+				if (response == null) throw web;
+			}
+			
+			Stream dataStream = response.GetResponseStream();
+			StreamReader reader = new StreamReader(dataStream);
+			string responseFromServer = reader.ReadToEnd();
+			reader.Close();
+			response.Close();
+
+			// if we didnt get any response and we failed earlier, rethrow that web-error
+			if (string.IsNullOrEmpty(responseFromServer) && exp != null) throw exp;
+
+			return responseFromServer;
+		}
+
+		public static string FetchStringOld(string url, ref Encoding enc)
+		{
 			// used to build entire input
 			int count = 0;
 
@@ -136,6 +167,11 @@ namespace PrettyGood.Util
 					}
 				}
 			}
+		}
+
+		public static string Escape(string p)
+		{
+			return p.Replace(" ", "%20");
 		}
 	}
 }

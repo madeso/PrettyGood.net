@@ -38,12 +38,34 @@ namespace PrettyGood.Util
 			}
 		}
 
+		public static IEnumerable<T> Remove<T>(IEnumerable<T> e, Func<T, bool> isValid)
+		{
+			foreach (T t in e)
+			{
+				if (isValid(t))
+				{
+					yield return t;
+				}
+			}
+		}
+
 		public static IEnumerable<Return> Convert<Return, Argument>(IEnumerable<Argument> e, Func<Argument, Return> c)
 		{
 			foreach (Argument a in e)
 			{
 				yield return c(a);
 			}
+		}
+
+		public static T GetOrNull<T>(T t, Func<T, bool> isValid, T invalid)
+		{
+			if (isValid(t)) return t;
+			else return invalid;
+		}
+
+		public static T GetOrNull<T>(T t, Func<T, bool> isValid)
+		{
+			return GetOrNull(t, isValid, default(T));
 		}
 	}
 }

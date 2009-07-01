@@ -71,5 +71,10 @@ namespace PrettyGood.Util
 			if (c.InvokeRequired) return c.Invoke(d, args);
 			else return d.DynamicInvoke(args);
 		}
+
+		public static void error(string p)
+		{
+			message(p, MessageBoxIcon.Error);
+		}
 	}
 }

@@ -261,12 +261,19 @@ namespace PrettyGood.Util
 
 		public static string GetFirstText(XmlNode node)
 		{
+			string result = GetFirstTextOrNull(node);
+			if( result == null ) throw new Exception("node is missing any text nodes");
+			return result;
+		}
+
+		public static string GetFirstTextOrNull(XmlNode node)
+		{
 			foreach (XmlNode n in node.ChildNodes)
 			{
 				string s = GetSmartTextOrNull(n);
 				if (s != null) return s;
 			}
-			throw new Exception("node is missing any text nodes");
+			return null;
 		}
 
 		private static string GetSmartText(XmlNode el)
@@ -305,6 +312,13 @@ namespace PrettyGood.Util
 			XmlDeclaration f = d.FirstChild as XmlDeclaration;
 			if( f == null ) return enc;
 			return Encoding.GetEncoding(f.Encoding);
+		}
+
+		public static XmlElement GetFirstChild(XmlNode root, string p)
+		{
+			XmlElement e = FirstOrNull(ElementsNamed(root, p));
+			if (e == null) throw new Exception("Missing element named " + p);
+			return e;
 		}
 	}
 }
