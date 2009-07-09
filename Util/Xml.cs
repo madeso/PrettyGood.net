@@ -15,19 +15,29 @@ namespace PrettyGood.Util
 
 		public static string GetAttributeString(XmlNode element, string name)
 		{
+			string v = GetAttributeStringOrNull(element, name);
+			if( v == null )throw new Exception(element.Name + " is missing text attribute \"" + name + "\"");
+			else return v;
+		}
+
+		public static string GetAttributeStringOrNull(XmlNode element, string name)
+		{
 			XmlAttribute attribute = element.Attributes[name];
-			if (attribute == null) throw new Exception(element.Name + " is missing text attribute \"" + name + "\"");
+			if (attribute == null) return null;
 			else return attribute.Value;
 		}
 
 		public static IEnumerable<XmlElement> ElementsNamed(XmlNode root, string childName)
 		{
-			foreach (XmlNode node in root.ChildNodes)
+			if (root != null)
 			{
-				XmlElement el = node as XmlElement;
-				if (el == null) continue;
-				if (el.Name != childName) continue;
-				yield return el;
+				foreach (XmlNode node in root.ChildNodes)
+				{
+					XmlElement el = node as XmlElement;
+					if (el == null) continue;
+					if (el.Name != childName) continue;
+					yield return el;
+				}
 			}
 		}
 

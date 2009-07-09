@@ -19,7 +19,7 @@ namespace PrettyGood.LastFm
 			this.similar = new List<SimilarArtist>(CSharp.Convert(Xml.ElementsNamed(Xml.GetFirstChild(artist, "similar"), "artist") , x => new SimilarArtist(x)));
 			this.tags = new List<Tag>(CSharp.Convert(Xml.ElementsNamed(Xml.GetFirstChild(artist, "tags"), "tag"), x => new Tag(x)));
 
-			this.images = new List<Image>( CSharp.Remove(CSharp.Convert(Xml.ElementsNamed(artist, "image"), x => new Image(x) ), img=>string.IsNullOrEmpty(img.url)==false));
+			this.images = Image.Read(artist);
 
 			XmlElement stats = Xml.GetFirstChild(artist, "stats");
 

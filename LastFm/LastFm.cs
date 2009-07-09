@@ -9,23 +9,23 @@ using System.Globalization;
 
 namespace PrettyGood.LastFm
 {
-	public class Application
+	public class LastFm
 	{
 		private readonly string api;
 		private Encoding encoding = Encoding.UTF32;
 
-		public Application(string api)
+		public LastFm(string api)
 		{
 			this.api = api;
-			foreach (AppItem item in Reflect.MembersOf<AppItem, Application>(this))
+			foreach (ApiItem item in Reflect.MembersOf<ApiItem, LastFm>(this))
 			{
 				item.app = this;
 			}
 		}
 
-		public class AppItem
+		public class ApiItem
 		{
-			internal Application app;
+			internal LastFm app;
 			internal XmlElement call(Arguments a)
 			{
 				return app.call(a);
@@ -48,7 +48,7 @@ namespace PrettyGood.LastFm
 			}
 		}
 
-		public class Artist : AppItem
+		public class Artist : ApiItem
 		{
 			public ArtistInfo getInfo(string artist, string mbid, System.Globalization.CultureInfo lang)
 			{
@@ -72,6 +72,19 @@ namespace PrettyGood.LastFm
 			}
 		}
 
+		public class Album : ApiItem
+		{
+			public IEnumerable<FoundAlbum> search(string album)
+			{
+				XmlElement el = call(new Arguments().rarg("method", "album.search").arg("album", album));
+				XmlElement matches = Xml.GetFirstChild(Xml.GetFirstChild(el, "results"), "albummatches");
+				foreach (XmlElement ael in Xml.ElementsNamed(matches, "album"))
+				{
+					yield return new FoundAlbum(ael);
+				}
+			}
+		}
+
 		internal static string buildUrl(Arguments a)
 		{
 			string args = new StringListCombiner("&")
@@ -84,6 +97,7 @@ namespace PrettyGood.LastFm
 		}
 
 		public Artist artist = new Artist();
+		public Album album = new Album();
 
 		internal XmlElement call(Arguments a)
 		{

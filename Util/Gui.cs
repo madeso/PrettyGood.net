@@ -76,5 +76,15 @@ namespace PrettyGood.Util
 		{
 			message(p, MessageBoxIcon.Error);
 		}
+
+		public static bool SmartInvoke<T>(Control c, T t, Action<T> act)
+		{
+			if (c.InvokeRequired)
+			{
+				c.Invoke(act, t);
+				return true;
+			}
+			else return false;
+		}
 	}
 }

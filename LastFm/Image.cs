@@ -17,5 +17,10 @@ namespace PrettyGood.LastFm
 
 		public readonly string url;
 		public readonly string size;
+
+		internal static List<Image> Read(XmlNode root)
+		{
+			return new List<Image>(CSharp.Remove(CSharp.Convert(Xml.ElementsNamed(root, "image"), x => new Image(x)), img => string.IsNullOrEmpty(img.url) == false));
+		}
 	}
 }

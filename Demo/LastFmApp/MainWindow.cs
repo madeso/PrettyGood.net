@@ -32,9 +32,14 @@ namespace LastFmApp
 			}
 		}
 
-		private void dSearch_Click(object sender, EventArgs e)
+		private void dSearchArtist_Click(object sender, EventArgs e)
 		{
 			new ArtistSearch(FormData).ShowDialog();
+		}
+
+		private void dSearchAlbum_Click(object sender, EventArgs e)
+		{
+			new AlbumSearch(FormData).ShowDialog();
 		}
 	}
 }

@@ -34,7 +34,8 @@
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.dPassword = new System.Windows.Forms.MaskedTextBox();
-			this.dSearch = new System.Windows.Forms.Button();
+			this.dSearchArtist = new System.Windows.Forms.Button();
+			this.dSearchAlbum = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// dApiKey
@@ -92,22 +93,33 @@
 			this.dPassword.Size = new System.Drawing.Size(209, 20);
 			this.dPassword.TabIndex = 6;
 			// 
-			// dSearch
+			// dSearchArtist
 			// 
-			this.dSearch.Location = new System.Drawing.Point(15, 90);
-			this.dSearch.Name = "dSearch";
-			this.dSearch.Size = new System.Drawing.Size(75, 23);
-			this.dSearch.TabIndex = 7;
-			this.dSearch.Text = "Search";
-			this.dSearch.UseVisualStyleBackColor = true;
-			this.dSearch.Click += new System.EventHandler(this.dSearch_Click);
+			this.dSearchArtist.Location = new System.Drawing.Point(15, 90);
+			this.dSearchArtist.Name = "dSearchArtist";
+			this.dSearchArtist.Size = new System.Drawing.Size(75, 23);
+			this.dSearchArtist.TabIndex = 7;
+			this.dSearchArtist.Text = "Artist";
+			this.dSearchArtist.UseVisualStyleBackColor = true;
+			this.dSearchArtist.Click += new System.EventHandler(this.dSearchArtist_Click);
+			// 
+			// dSearchAlbum
+			// 
+			this.dSearchAlbum.Location = new System.Drawing.Point(96, 90);
+			this.dSearchAlbum.Name = "dSearchAlbum";
+			this.dSearchAlbum.Size = new System.Drawing.Size(75, 23);
+			this.dSearchAlbum.TabIndex = 8;
+			this.dSearchAlbum.Text = "Album";
+			this.dSearchAlbum.UseVisualStyleBackColor = true;
+			this.dSearchAlbum.Click += new System.EventHandler(this.dSearchAlbum_Click);
 			// 
 			// MainWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(292, 136);
-			this.Controls.Add(this.dSearch);
+			this.Controls.Add(this.dSearchAlbum);
+			this.Controls.Add(this.dSearchArtist);
 			this.Controls.Add(this.dPassword);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
@@ -129,7 +141,8 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.MaskedTextBox dPassword;
-		private System.Windows.Forms.Button dSearch;
+		private System.Windows.Forms.Button dSearchArtist;
+		private System.Windows.Forms.Button dSearchAlbum;
 
 	}
 }

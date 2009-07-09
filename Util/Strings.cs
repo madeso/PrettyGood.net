@@ -54,60 +54,53 @@ namespace PrettyGood.Util
 			return CSharp.Enumerate<string>(args);
 		}
 
-		internal static string RemoveFromEndIfFound(string str, string extra)
+		public static string RemoveFromEndIfFound(this string str, string extra)
 		{
 			if (str.EndsWith(extra)) return str.Substring(0, str.Length - extra.Length);
 			else return str;
 		}
 
-		private static bool isnum(char b)
+		public static string RemoveUnderscores(this string str)
 		{
-			if (b >= '0' && b <= '9') return true;
-			return false;
+			return str.Replace('_', ' ');
 		}
 
-		class CharPointer
+		public static string Capitalize(this string p)
 		{
-			public string String = string.Empty;
-			public int Index = 0;
+			return Capitalize(p, true);
+		}
 
-			public char Char
+		public static string Capitalize(this string p, bool alsoFirstChar)
+		{
+			bool cap = alsoFirstChar;
+			StringBuilder sb = new StringBuilder();
+			foreach (char h in p.ToLower())
 			{
-				get
+				char c = h;
+				if (char.IsLetter(c) && cap)
 				{
-					return String[Index];
+					c = char.ToUpper(c);
+					cap = false;
 				}
+				if (char.IsWhiteSpace(c)) cap = true;
+				sb.Append(c);
 			}
-
-			public void next()
-			{
-				++Index;
-			}
-		
-			internal void prev()
-			{
- 				--Index;
-			}
-		
-			internal bool hasMore()
-			{
- 				return Index < String.Length;
-			}
+			return sb.ToString();
 		}
 
-		private static int parsenum(ref CharPointer a)
+		public static string RemoveLeadingZeros(this string s)
 		{
-			int result = a.Char - '0';
-			a.next();
+			return s.Trim().TrimStart('0');
+		}
 
-			while (isnum(a.Char)) {
-				result *= 10;
-				result += a.Char - '0';
-				a.next();
+		public static int CountCharacters(this string s, Func<char, bool> count)
+		{
+			int n = 0;
+			foreach (char c in s)
+			{
+				if (count(c)) ++n;
 			}
-
-			a.prev();
-			return result;
+			return n;
 		}
 
 		// http://www.stereopsis.com/strcmp4humans.html
@@ -145,5 +138,58 @@ namespace PrettyGood.Util
 
 			return 0;
 		}
+
+		#region Implementation deatils
+		private class CharPointer
+		{
+			public string String = string.Empty;
+			public int Index = 0;
+
+			public char Char
+			{
+				get
+				{
+					return String[Index];
+				}
+			}
+
+			public void next()
+			{
+				++Index;
+			}
+
+			internal void prev()
+			{
+				--Index;
+			}
+
+			internal bool hasMore()
+			{
+				return Index < String.Length;
+			}
+		}
+
+		private static bool isnum(char b)
+		{
+			if (b >= '0' && b <= '9') return true;
+			return false;
+		}
+
+		private static int parsenum(ref CharPointer a)
+		{
+			int result = a.Char - '0';
+			a.next();
+
+			while (isnum(a.Char))
+			{
+				result *= 10;
+				result += a.Char - '0';
+				a.next();
+			}
+
+			a.prev();
+			return result;
+		}
+		#endregion
 	}
 }

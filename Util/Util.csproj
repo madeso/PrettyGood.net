@@ -64,6 +64,7 @@
     <Compile Include="ElementBuilder.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="FileDrop.cs" />
     <Compile Include="FileUtil.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -71,6 +72,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IndexCreator.cs" />
+    <Compile Include="KeyValueExtractor.cs" />
     <Compile Include="Listview.cs" />
     <Compile Include="Parse.cs">
       <SubType>Code</SubType>

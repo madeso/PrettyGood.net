@@ -57,6 +57,14 @@ namespace PrettyGood.Util
 			}
 		}
 
+		public static IEnumerable<Return> Convert<Return>(System.Collections.IEnumerable e, Func<object, Return> c)
+		{
+			foreach (object a in e)
+			{
+				yield return c(a);
+			}
+		}
+
 		public static T GetOrNull<T>(T t, Func<T, bool> isValid, T invalid)
 		{
 			if (isValid(t)) return t;

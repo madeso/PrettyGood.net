@@ -17,15 +17,15 @@ namespace LastFmApp
 		{
 			InitializeComponent();
 
-			app = new PrettyGood.LastFm.Application(data.ApiKey);
+			app = new PrettyGood.LastFm.LastFm(data.ApiKey);
 
-			foreach (var ci in PrettyGood.LastFm.Application.Languages)
+			foreach (var ci in PrettyGood.LastFm.LastFm.Languages)
 			{
 				dLanguage.Items.Add(ci);
 			}
 		}
 
-		PrettyGood.LastFm.Application app;
+		PrettyGood.LastFm.LastFm app;
 
 		private void dSearch_Click(object sender, EventArgs e)
 		{
