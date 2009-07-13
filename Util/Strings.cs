@@ -14,6 +14,31 @@ namespace PrettyGood.Util
 			}
 		}
 
+		public static string ExpandEnviroment(string var, Func<string, string> s)
+		{
+			if (string.IsNullOrEmpty(var)) throw new NullReferenceException("var was null");
+			string temp = var;
+			char sep = '%';
+			int start = temp.IndexOf(sep);
+
+			while(start != -1 && start < temp.Length)
+			{
+				int end = temp.IndexOf(sep, start+1);
+				if (start == end - 1) start = end + 1;
+				else
+				{
+					string send = temp.Substring(end+1);
+					string sstart = temp.Substring(0, start);
+					string name = temp.Substring(start+1, end - start-1).ToUpper().Trim();
+					string val = s(name);
+					temp = sstart + val + send;
+					start = temp.IndexOf(sep, start);
+				}
+			}
+
+			return temp;
+		}
+
 		public static IEnumerable<string> Sort(IEnumerable<string> strings)
 		{
 			List<string> str = new List<string>(strings);

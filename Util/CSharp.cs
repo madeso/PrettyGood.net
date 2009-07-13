@@ -38,6 +38,14 @@ namespace PrettyGood.Util
 			}
 		}
 
+		public static IEnumerable<V> Values<K, V>(IEnumerable<KeyValuePair<K, V>> f)
+		{
+			foreach (KeyValuePair<K, V> i in f)
+			{
+				yield return i.Value;
+			}
+		}
+
 		public static IEnumerable<T> Remove<T>(IEnumerable<T> e, Func<T, bool> isValid)
 		{
 			foreach (T t in e)

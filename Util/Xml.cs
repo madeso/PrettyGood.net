@@ -7,27 +7,27 @@ namespace PrettyGood.Util
 {
 	public static class Xml
 	{
-		public static bool HasAttribute(XmlNode element, string search)
+		public static bool HasAttribute(this XmlNode element, string search)
 		{
 			XmlAttribute attribute = element.Attributes[search];
 			return attribute != null;
 		}
 
-		public static string GetAttributeString(XmlNode element, string name)
+		public static string GetAttributeString(this XmlNode element, string name)
 		{
 			string v = GetAttributeStringOrNull(element, name);
 			if( v == null )throw new Exception(element.Name + " is missing text attribute \"" + name + "\"");
 			else return v;
 		}
 
-		public static string GetAttributeStringOrNull(XmlNode element, string name)
+		public static string GetAttributeStringOrNull(this XmlNode element, string name)
 		{
 			XmlAttribute attribute = element.Attributes[name];
 			if (attribute == null) return null;
 			else return attribute.Value;
 		}
 
-		public static IEnumerable<XmlElement> ElementsNamed(XmlNode root, string childName)
+		public static IEnumerable<XmlElement> ElementsNamed(this XmlNode root, string childName)
 		{
 			if (root != null)
 			{
@@ -41,7 +41,7 @@ namespace PrettyGood.Util
 			}
 		}
 
-		public static IEnumerable<XmlElement> Elements(XmlNode root)
+		public static IEnumerable<XmlElement> Elements(this XmlNode root)
 		{
 			foreach (XmlNode node in root.ChildNodes)
 			{
@@ -53,7 +53,7 @@ namespace PrettyGood.Util
 
 		private const string kValueType = "id";
 
-		public static IEnumerable<XmlElement> ElementsNamed(XmlNode root, string childName, string valueName)
+		public static IEnumerable<XmlElement> ElementsNamed(this XmlNode root, string childName, string valueName)
 		{
 			foreach (XmlNode node in root.ChildNodes)
 			{
@@ -67,7 +67,7 @@ namespace PrettyGood.Util
 			}
 		}
 
-		public static IEnumerable<XmlElement> Enumerate(XmlNode root, string path)
+		public static IEnumerable<XmlElement> Enumerate(this XmlNode root, string path)
 		{
 			string[] elements = path.Split("/".ToCharArray());
 
@@ -92,7 +92,7 @@ namespace PrettyGood.Util
 				yield return (XmlElement) node;
 			}
 		}
-		public static XmlElement FirstOrNull(IEnumerable<XmlElement> elements)
+		public static XmlElement FirstOrNull(this IEnumerable<XmlElement> elements)
 		{
 			foreach (XmlElement e in elements)
 			{
@@ -100,7 +100,7 @@ namespace PrettyGood.Util
 			}
 			return null;
 		}
-		public static XmlElement FirstOrNull(XmlNode root, string path)
+		public static XmlElement FirstOrNull(this XmlNode root, string path)
 		{
 			return FirstOrNull(Enumerate(root, path));
 		}
@@ -184,7 +184,7 @@ namespace PrettyGood.Util
 			}
 		}
 
-		public static XmlElement FirstElement(XmlElement e)
+		public static XmlElement FirstElement(this XmlElement e)
 		{
 			foreach (XmlElement el in Elements(e))
 			{
@@ -201,7 +201,7 @@ namespace PrettyGood.Util
 			}
 		}
 
-		public static string NameOf(XmlElement element)
+		public static string NameOf(this XmlElement element)
 		{
 			string attribute = "";
 			if (HasAttribute(element, "id"))
@@ -211,7 +211,7 @@ namespace PrettyGood.Util
 			return element.Name + attribute; ;
 		}
 
-		public static string PathOf(XmlElement element)
+		public static string PathOf(this XmlElement element)
 		{
 			XmlElement c = element;
 			string result = "";
@@ -222,7 +222,7 @@ namespace PrettyGood.Util
 			return result;
 		}
 
-		public static Dictionary<string, XmlElement> MapElements(XmlElement root, string type, string key)
+		public static Dictionary<string, XmlElement> MapElements(this XmlElement root, string type, string key)
 		{
 			if (root == null) return new Dictionary<string, XmlElement>();
 			Dictionary<string, XmlElement> map = new Dictionary<string, XmlElement>();
@@ -234,13 +234,13 @@ namespace PrettyGood.Util
 			return map;
 		}
 
-		public static string GetAttributeString(XmlNode element, string name, string def)
+		public static string GetAttributeString(this XmlNode element, string name, string def)
 		{
 			if (def==null || HasAttribute(element, name)) return GetAttributeString(element, name);
 			else return def;
 		}
 
-		public static bool GetAttributeBool(XmlElement element, string name, bool def)
+		public static bool GetAttributeBool(this XmlElement element, string name, bool def)
 		{
 			if (HasAttribute(element, name)) return bool.Parse(GetAttributeString(element, name));
 			else return def;
@@ -259,7 +259,7 @@ namespace PrettyGood.Util
 			elem.Attributes.Append(a);
 		}
 
-		public static string GetTextOfSubElement(XmlNode node, params string[] ps)
+		public static string GetTextOfSubElement(this XmlNode node, params string[] ps)
 		{
 			foreach (string p in ps)
 			{
@@ -269,14 +269,14 @@ namespace PrettyGood.Util
 			throw new Exception("node is missing " +  new StringListCombiner(", ", " or").combineFromArray(ps) + ", a requested sub node");
 		}
 
-		public static string GetFirstText(XmlNode node)
+		public static string GetFirstText(this XmlNode node)
 		{
 			string result = GetFirstTextOrNull(node);
 			if( result == null ) throw new Exception("node is missing any text nodes");
 			return result;
 		}
 
-		public static string GetFirstTextOrNull(XmlNode node)
+		public static string GetFirstTextOrNull(this XmlNode node)
 		{
 			foreach (XmlNode n in node.ChildNodes)
 			{
@@ -307,14 +307,14 @@ namespace PrettyGood.Util
 			else return null;
 		}
 
-		public static string GetTextOfSubElementOrNull(XmlNode node, string p)
+		public static string GetTextOfSubElementOrNull(this XmlNode node, string p)
 		{
 			XmlElement el = node[p];
 			if (el == null) return null;
 			else return GetSmartTextOrNull(el.FirstChild);
 		}
 
-		public static Encoding GetEncoding(XmlNode doc, Encoding enc)
+		public static Encoding GetEncoding(this XmlNode doc, Encoding enc)
 		{
 			XmlNode b = doc;
 			while (b.ParentNode != null) b = b.ParentNode;
@@ -324,7 +324,7 @@ namespace PrettyGood.Util
 			return Encoding.GetEncoding(f.Encoding);
 		}
 
-		public static XmlElement GetFirstChild(XmlNode root, string p)
+		public static XmlElement GetFirstChild(this XmlNode root, string p)
 		{
 			XmlElement e = FirstOrNull(ElementsNamed(root, p));
 			if (e == null) throw new Exception("Missing element named " + p);
