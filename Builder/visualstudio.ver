@@ -1,0 +1,17 @@
+<versions>
+	<var name="MSVCDIR">%VCINSTALLDIR%\VC</var>
+	<var name="DEVENVDIR">%VSINSTALLDIR%</var>
+	<var name="VCINSTALLDIR">%VS2008INSTALLDIR%</var>
+	<var name="VSINSTALLDIR">%VS2008INSTALLDIR%\Common7\IDE</var>
+	<var name="PATH">%DevEnvDir%;%MSVCDir%\BIN;%VCINSTALLDIR%\Common7\Tools;%VCINSTALLDIR%\Common7\Tools\bin\prerelease;%VCINSTALLDIR%\Common7\Tools\bin;%FrameworkSDKDir%\bin;%FrameworkDir%\%FrameworkVersion%;%WinDir%\system32;%WinDir%;</var>
+	<var name="FRAMEWORKDIR">%WinDir%\Microsoft.NET\Framework</var>
+	<var name="FRAMEWORKSDKDIR">%VS2008INSTALLDIR%\SDK\v2.0</var>
+	<autovar target="VisualStudioDir" type="enviroment">VisualStudioDir</autovar>
+
+	<for version="2008">
+		<autovar type="external" ui="text" target="VS2008INSTALLDIR" description="Visual Studio 2008 install path"/>
+		<var name="MSVS_VER">2008</var>
+		<var name="FRAMEWORKVERSION">v2.0.50727</var>
+		<autovar target="VS90COMNTOOLS" type="enviroment">VS90COMNTOOLS</autovar>
+	</for>
+</versions>

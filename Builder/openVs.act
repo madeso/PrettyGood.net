@@ -1,0 +1,5 @@
+<action>
+	<test lhs="%MSVS_VER%" action="=" rhs="2008">
+		<action>devenv.com %SLN_FILE%</action>
+	</test>
+</action>

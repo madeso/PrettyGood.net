@@ -1,0 +1,31 @@
+<project name="example">
+	<autovar target="windir" type="enviroment">windir</autovar>
+	<autovar target="homepath" type="enviroment">homepath</autovar>
+	<autovar target="computername" type="enviroment">computername</autovar>
+	<autovar target="ProgramFiles" type="enviroment">ProgramFiles</autovar>
+	<autovar target="SystemRoot" type="enviroment">SystemRoot</autovar>
+	<autovar target="USERNAME" type="enviroment">USERNAME</autovar>
+	<autovar target="OS" type="enviroment">OS</autovar>
+	<autovar target="ComSpec" type="enviroment">ComSpec</autovar>
+	<autovar target="SystemDrive" type="enviroment">SystemDrive</autovar>
+	<autovar target="ALLUSERSPROFILE" type="enviroment">ALLUSERSPROFILE</autovar>
+	<autovar target="APPDATA" type="enviroment">APPDATA</autovar>
+	<autovar target="USERPROFILE" type="enviroment">USERPROFILE</autovar>
+	<autovar target="NUMBER_OF_PROCESSORS" type="enviroment">NUMBER_OF_PROCESSORS</autovar>
+	<autovar target="CommonProgramFiles" type="enviroment">CommonProgramFiles</autovar>
+	<autovar target="PROCESSOR_LEVEL" type="enviroment">PROCESSOR_LEVEL</autovar>
+	<autovar target="PROCESSOR_IDENTIFIER" type="enviroment">PROCESSOR_IDENTIFIER</autovar>
+	<autovar target="USERDOMAIN" type="enviroment">USERDOMAIN</autovar>
+	<autovar target="USERDNSDOMAIN" type="enviroment">USERDNSDOMAIN</autovar>
+	<autovar target="TEMP" type="enviroment">TEMP</autovar>
+	<autovar target="TMP" type="enviroment">TMP</autovar>
+	<autovar target="CPU" type="enviroment">CPU</autovar>
+	<autovar target="PATHEXT" type="enviroment">PATHEXT</autovar>
+
+	<autovar target="projectfolder" type="projectfolder"/>
+	<autovar type="version" for="visualstudio" version="2008"/>
+	<action type="open" context="" base="openVs" description="Opens the builder solution">
+		<var name="sln_file">%projectfolder%\Builder.sln</var>
+	</action>
+	<actionlist base="build_vs"/>
+</project>
