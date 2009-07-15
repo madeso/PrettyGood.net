@@ -64,7 +64,7 @@ namespace Game
 
         Dictionary<string, Image> images = new Dictionary<string, Image>();
 
-        internal Image loadImage(string p)
+        internal Image fetchImage(string p)
         {
             if (images.ContainsKey(p)) return images[p];
             Image img = new Image(p);
@@ -81,6 +81,16 @@ namespace Game
         internal void setBackgroundColor(Color color)
         {
             bkg = color;
+        }
+
+        internal void setCenter(Vector2 center)
+        {
+            window.CurrentView = new View(center, new Vector2(640/2, 480/2));
+        }
+
+        internal void clearCenter()
+        {
+            window.CurrentView = window.DefaultView;
         }
     }
 }

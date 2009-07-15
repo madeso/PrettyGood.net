@@ -37,19 +37,20 @@ namespace Game.nms
             public Player(Game g, GameLoop loop, Layer.ObjectData da)
             {
                 this.loop = loop;
-                sp = Tiles.CreateSprite(g.loadImage("worldtexture.png"), 89, 42, 42);
+                sp = Tiles.CreateSprite(g.fetchImage("worldtexture.png"), 89, 42, 42);
                 sp.Position = da.pos;
             }
 
-            public void draw(Game g)
+            public override void draw(Game g)
             {
                 g.draw(sp);
             }
 
-            public void update(float delta)
+            public override void update(float delta)
             {
                 const float kPlayerSpeed = 300;
                 sp.Position += new Vector2(loop.rightLeft.Value, -loop.upDown.Value).GetNormalized() * kPlayerSpeed * delta;
+                world.suggestViewCenter(sp.Position);
             }
         }
 

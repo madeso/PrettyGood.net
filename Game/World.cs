@@ -30,7 +30,7 @@ namespace Game
             var tilewidth = tileset.GetAttributeInt("tilewidth");
             var tileheight = tileset.GetAttributeInt("tileheight");
             var imagepath = Path.Combine(relative, tileset.FirstElement("image").GetAttributeString("source"));
-            var image = game.loadImage(imagepath);
+            var image = game.fetchImage(imagepath);
 
             foreach (var pr in root.FirstElement("properties").ElementsNamed("property"))
             {
@@ -64,8 +64,11 @@ namespace Game
         public void render(bool renderCollision)
         {
             game.setBackgroundColor(new Color(85, 144, 222));
+
+            game.setCenter(center);
             foreach (var x in layers) x.render(game);
             if (renderCollision && collisionLayer != null) collisionLayer.render(game);
+            game.clearCenter();
         }
 
         public IEnumerable<Layer> Layers
@@ -108,16 +111,29 @@ namespace Game
                         if (o.gid != 0)
                         {
                             int idZero = o.gid - 1;
-                            la.add(objProp[idZero](o));
+                            add(la, objProp[idZero](o));
                         }
                     }
                 }
             }
         }
 
+        private void add(Layer la, LevelObject levelObject)
+        {
+            la.add(levelObject);
+            levelObject.world = this;
+        }
+
         internal void update(float delta)
         {
             foreach (var x in layers) x.update(delta);
+        }
+
+        Vector2 center = new Vector2(0, 0);
+
+        internal void suggestViewCenter(Vector2 vector2)
+        {
+            center = vector2;
         }
     }
 }

@@ -5,9 +5,15 @@ using System.Text;
 
 namespace Game
 {
-    public interface LevelObject
+    public abstract class LevelObject
     {
-        void draw(Game g);
-        void update(float time);
+        public abstract void draw(Game g);
+        public abstract void update(float time);
+
+        public World world
+        {
+            get;
+            set;
+        }
     }
 }
