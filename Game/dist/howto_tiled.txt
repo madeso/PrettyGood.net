@@ -1,0 +1,6 @@
+_collisions with any sprite marks that as a non-walkable tile, this layer is never rendered unless tab(debug key) is held
+
+layers with a @ at the start are object layers
+Properties witha a name of "object" maps object tiles to objects understood by the game. enter id=type as the value, wher id is the tile number found in tileset manager/edit tileset; and name is the object type.
+currently supported types:
+player - the player character

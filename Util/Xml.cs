@@ -20,6 +20,12 @@ namespace PrettyGood.Util
 			else return v;
 		}
 
+        public static int GetAttributeInt(this XmlNode element, string name)
+        {
+            string v = GetAttributeString(element, name);
+            return int.Parse(v);
+        }
+
 		public static string GetAttributeStringOrNull(this XmlNode element, string name)
 		{
 			XmlAttribute attribute = element.Attributes[name];
@@ -192,6 +198,15 @@ namespace PrettyGood.Util
 			}
 			throw new Exception(e.Name + " is missing element");
 		}
+
+        public static XmlElement FirstElement(this XmlElement e, string name)
+        {
+            foreach (XmlElement el in ElementsNamed(e, name))
+            {
+                return el;
+            }
+            throw new Exception(e.Name + " is missing element " + name);
+        }
 
 		public static IEnumerable<KeyValuePair<string, string>> Attributes(XmlElement el)
 		{
