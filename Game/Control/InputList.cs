@@ -20,5 +20,10 @@ namespace Game.Control
         {
             foreach (var x in inputs) x.update(key, down);
         }
+
+        public void frame(float delta)
+        {
+            foreach (var x in inputs) x.frame(delta);
+        }
     }
 }

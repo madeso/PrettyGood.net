@@ -157,14 +157,19 @@ namespace BuilderLib
 			string name = command.Trim().Split(' ')[0];
 			start.FileName = name;
 
-			// get a fullpath
-			foreach (string folder in start.EnvironmentVariables["path"].Split(";".ToCharArray()))
+			if (File.Exists(start.FileName) == false)
 			{
-				string p = Path.Combine(folder, name);
-				if (File.Exists(p))
+				// get a fullpath
+				string pathEnv = start.EnvironmentVariables["PATH"];
+				if (string.IsNullOrEmpty(pathEnv)) throw new Exception("Missing path enviroment variable");
+				foreach (string folder in pathEnv.Split(";".ToCharArray()))
 				{
-					start.FileName = p;
-					break;
+					string p = Path.Combine(folder, name);
+					if (File.Exists(p))
+					{
+						start.FileName = p;
+						break;
+					}
 				}
 			}
 
@@ -178,7 +183,7 @@ namespace BuilderLib
 			}
 			catch (Exception e)
 			{
-				throw new Exception("for command " + start.FileName + ", called with " + start.Arguments + "; path is " + Environment.NewLine + new StringListCombiner(", ", " and ", "empty").combineFromEnumerable(start.EnvironmentVariables["PATH"].Split(';')), e);
+				throw new Exception("for command " + start.FileName + ", called with " + start.Arguments + "; path is " + Environment.NewLine + start.EnvironmentVariables["PATH"], e);
 			}
 		}
 	}

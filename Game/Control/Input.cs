@@ -9,5 +9,6 @@ namespace Game.Control
     public interface Input
     {
         void update(KeyCode key, bool down);
+        void frame(float delta);
     }
 }

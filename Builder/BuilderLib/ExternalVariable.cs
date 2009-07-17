@@ -16,6 +16,7 @@ namespace BuilderLib
 		public enum Type
 		{
 			Folder,
+			FolderMustExist,
 			Text,
 			File,
 			FileExist
@@ -52,18 +53,23 @@ namespace BuilderLib
 			}
 			else if ( type == Type.FileExist )
 			{
-				FileInfo fi = new FileInfo(s);
-				if (fi.Exists) return s;
-				throw new Exception(s + " does not exist");
+				if (File.Exists(s)) return s;
+				throw new Exception("File " + s + " does not exist, " + Name + " must exist");
 			}
 			else if (type == Type.Folder )
 			{
 				FileUtil.MakeSurePathExist(s);
 				return s;
 			}
+			else if (type == Type.FolderMustExist)
+			{
+				if (Directory.Exists(s)) return s;
+				throw new Exception("Folder " + s + " does not exist, " + Name + " must exist");
+			}
 			else //if (type == Type.Text)
 			{
-				return s;
+				if (string.IsNullOrEmpty(s)) return "";
+				else return s;
 			}
 		}
 	}

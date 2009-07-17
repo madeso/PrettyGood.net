@@ -6,7 +6,7 @@ using SFML.Window;
 
 namespace Game.Control
 {
-    class PlusMinus : Input
+    public class PlusMinus : Input
     {
         Down plus = new Down();
         Down minus = new Down();
@@ -46,6 +46,10 @@ namespace Game.Control
             {
                 return (plus.IsDown ? 1 : 0) - (minus.IsDown ? 1 : 0);
             }
+        }
+
+        public void frame(float delta)
+        {
         }
     }
 }

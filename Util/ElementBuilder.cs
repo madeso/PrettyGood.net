@@ -16,7 +16,7 @@ namespace PrettyGood.Util
 			this.el = null;
 		}
 
-		public ElementBuilder(XmlDocument doc, XmlNode el)
+		private ElementBuilder(XmlDocument doc, XmlNode el)
 		{
 			this.doc = doc;
 			this.el = el;

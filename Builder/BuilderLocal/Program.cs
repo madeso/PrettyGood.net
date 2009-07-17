@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using PrettyGood.Util;
 
 namespace BuilderLocal
 {
@@ -15,6 +16,8 @@ namespace BuilderLocal
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			App.Setup("sirGustav", "Builder 0.1", "builder");
+			ConsoleArguments args = new ConsoleArguments();
 			Application.Run(new MainWindow());
 		}
 	}

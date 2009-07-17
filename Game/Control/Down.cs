@@ -23,5 +23,9 @@ namespace Game.Control
                 return down;
             }
         }
+
+        public void frame(float delta)
+        {
+        }
     }
 }

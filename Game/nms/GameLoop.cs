@@ -25,70 +25,20 @@ namespace Game.nms
             world.parseObjectLayers(creators);
 
             inputList
-                .add(rightLeft)
-                .add(upDown);
+                .add(rightLeftMovement)
+                .add(jumpButton);
         }
 
-        class Player : LevelObject
-        {
-            Sprite sp;
-            GameLoop loop;
-            // SFML.Graphics.Font font
-            //String2D text;
-            //Font font;
-
-            public Player(Game g, GameLoop loop, Layer.ObjectData da)
-            {
-                this.loop = loop;
-                sp = Tiles.CreateSprite(g.fetchImage("worldtexture.png"), 89, 42, 42);
-                sp.Position = da.pos;
-                //font = new Font("cheeseburger.ttf");
-                //text = new String2D("", font);
-            }
-
-            public override void draw(Game g)
-            {
-                g.draw(sp);
-                //g.draw(text);
-            }
-
-            private void applyMovement(Vector2 mov)
-            {
-                float x = sp.Position.X;
-                float y = sp.Position.Y;
-                var re = world.CollisionLayer.moveObject(ref x, ref y, Constants.kTileSize, Constants.kTileSize, mov.X, mov.Y);
-                sp.Position = new Vector2(x,y);
-                //sp.Position += mov;
-
-                /*float fx;
-                float fy;
-                bool cr = world.CollisionLayer.placeFree(sp.Position.X, sp.Position.Y, Constants.kTileSize, Constants.kTileSize, out fx, out fy);
-
-                text.Text = string.Format("{0}|{1} {2},{3}", re, cr, fx, fy);
-                text.Position = sp.Position;*/
-            }
-
-            public override void update(float delta)
-            {
-                const float kPlayerSpeed = 300;
-                applyMovement(new Vector2(loop.rightLeft.Value, -loop.upDown.Value).GetNormalized() * kPlayerSpeed * delta);
-                world.suggestViewCenter(sp.Position);
-            }
-
-            public override void Dispose()
-            {
-                //text.Dispose();
-                //font.Dispose();
-            }
-        }
+        
 
         InputList inputList = new InputList();
-        PlusMinus rightLeft = new PlusMinus { Plus= KeyCode.Right, Minus=KeyCode.Left };
-        PlusMinus upDown = new PlusMinus { Plus = KeyCode.Up, Minus = KeyCode.Down };
+        public PlusMinus rightLeftMovement = new PlusMinus { Plus= KeyCode.Right, Minus=KeyCode.Left };
+        public Hit jumpButton = new Hit { keys = { KeyCode.LShift, KeyCode.RShift}  };
 
         public override void onUpdate(float delta)
         {
             world.update(delta);
+            inputList.frame(delta);
         }
 
         public override void onRender()

@@ -74,6 +74,7 @@
     <Compile Include="IndexCreator.cs" />
     <Compile Include="KeyValueExtractor.cs" />
     <Compile Include="Listview.cs" />
+    <Compile Include="Disk.cs" />
     <Compile Include="Parse.cs">
       <SubType>Code</SubType>
     </Compile>

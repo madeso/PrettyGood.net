@@ -31,5 +31,27 @@ namespace BuilderLib
 		{
 			variables[name].value = value;
 		}
+
+		public void load(string file)
+		{
+			Dictionary<string, string> data = Disk.LoadStringStringDictionaryOrNull(file);
+			foreach (var x in variables)
+			{
+				if (data.ContainsKey(x.Key))
+				{
+					x.Value.value = data[x.Key];
+				}
+			}
+		}
+
+		public void save(string file)
+		{
+			Dictionary<string, string> data = Disk.LoadStringStringDictionaryOrNull(file);
+			foreach (var x in variables)
+			{
+				data[x.Key] = x.Value.value;
+			}
+			Disk.WriteStringStringDictionary(data, file);
+		}
 	}
 }

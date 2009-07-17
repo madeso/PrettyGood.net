@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.Globalization;
 
 namespace PrettyGood.Util
 {
@@ -24,6 +25,13 @@ namespace PrettyGood.Util
         {
             string v = GetAttributeString(element, name);
             return int.Parse(v);
+        }
+
+        public static float GetAttributeFloat(this XmlNode element, string name)
+        {
+            string v = GetAttributeString(element, name);
+            // todo: fix hacky parsing
+            return (float) double.Parse(v, NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint);
         }
 
 		public static string GetAttributeStringOrNull(this XmlNode element, string name)
@@ -176,7 +184,7 @@ namespace PrettyGood.Util
 			}
 		}
 
-		private static XmlDocument Open(Loader loader)
+		public static XmlDocument Open(Loader loader)
 		{
 			try
 			{

@@ -9,7 +9,7 @@
 	<autovar target="VisualStudioDir" type="enviroment">VisualStudioDir</autovar>
 
 	<for version="2008">
-		<autovar type="external" ui="text" target="VS2008INSTALLDIR" description="Visual Studio 2008 install path"/>
+		<autovar type="external" ui="FolderMustExist" target="VS2008INSTALLDIR" description="Visual Studio 2008 install path"/>
 		<var name="MSVS_VER">2008</var>
 		<var name="FRAMEWORKVERSION">v2.0.50727</var>
 		<autovar target="VS90COMNTOOLS" type="enviroment">VS90COMNTOOLS</autovar>

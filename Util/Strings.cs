@@ -16,7 +16,7 @@ namespace PrettyGood.Util
 
 		public static string ExpandEnviroment(string var, Func<string, string> s)
 		{
-			if (string.IsNullOrEmpty(var)) throw new NullReferenceException("var was null");
+			if (var == null) throw new NullReferenceException("unable to expand enviroment variable when var is null");
 			string temp = var;
 			char sep = '%';
 			int start = temp.IndexOf(sep);

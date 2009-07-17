@@ -19,6 +19,7 @@ namespace BuilderLocal
 		public MainWindow()
 		{
 			InitializeComponent();
+			Text = App.ReadableAppName;
 		}
 
 		private void dOpen_Click(object sender, EventArgs e)
@@ -27,13 +28,29 @@ namespace BuilderLocal
 			{
 				if (dOpenProject.ShowDialog() == DialogResult.OK)
 				{
-					root = Group.Load(dOpenProject.FileName, variables);
-					updateActions();
+					string file = dOpenProject.FileName;
+					open(file);
 				}
 			}
 			catch (Exception ex)
 			{
 				Show(ex);
+			}
+		}
+
+		public void open(string file)
+		{
+			root = Group.Load(dOpenProject.FileName, variables);
+			updateActions();
+			variables.load(ExternalVariableFile);
+			Text = file + " - " + App.ReadableAppName;
+		}
+
+		private static string ExternalVariableFile
+		{
+			get
+			{
+				return FileUtil.GetUserPathFor().file("variables", "var");
 			}
 		}
 
@@ -52,7 +69,6 @@ namespace BuilderLocal
 
 		private void updateActions()
 		{
-			Text = root.Name;
 			dActions.SetObjects( root.Actions );
 		}
 
@@ -76,7 +92,12 @@ namespace BuilderLocal
 
 		private void dVariables_Click(object sender, EventArgs e)
 		{
-			new UserVariables(variables).ShowDialog();
+			ShowVariableDialog();
+		}
+
+		private bool ShowVariableDialog()
+		{
+			return new UserVariables(variables).ShowDialog() == DialogResult.OK;
 		}
 	}
 }
