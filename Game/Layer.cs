@@ -7,7 +7,7 @@ using SFML.Graphics;
 
 namespace Game
 {
-    public class Layer
+    public class Layer : IDisposable
     {
         public readonly string Name;
         int[] tiles;
@@ -81,6 +81,77 @@ namespace Game
             public Vector2 pos;
         }
 
+        public bool placeFree(float posX, float posY, float width, float height, out float fx, out float fy)
+        {
+            int freeX = -1, freeY=-1;
+            float x = posX / tilewidth,
+                dx = width / tilewidth,
+                y = posY / tileheight,
+                dy = height / tileheight;
+
+            bool res = placeFreeBase(x, y, ref freeX, ref freeY) && placeFreeBase(x + dx, y, ref freeX, ref freeY) && placeFreeBase(x, y + dy, ref freeX, ref freeY) && placeFreeBase(x + dx, y + dy, ref freeX, ref freeY);
+
+            fx = freeX * tilewidth;
+            fy = tileheight;
+
+            return res;
+        }
+
+        private bool placeFreeBase(float x, float y, ref int ox, ref int oy)
+        {
+            return placeFreeBase((int)x, (int)y,ref ox, ref oy);
+        }
+
+        private bool placeFreeBase(int x, int y, ref int ox, ref int oy)
+        {
+            if (x < 0) return true;
+            if (y < 0) return true;
+            if (x > width) return true;
+            if (y > height) return true;
+            bool free = getTileAt(x, y) == 0;
+            if (!free)
+            {
+                ox = x;
+                oy = y;
+            }
+            return free;
+        }
+        int getTileAt(int x, int y)
+        {
+            if (x < 0) return 0;
+            if (y < 0) return 0;
+            if (y >= height) return 0;
+            if (x >= width) return 0;
+
+            int index = x + y * width;
+
+            // assert( index >= 0 );
+            // assert(index < mWidth*mHeight);
+
+            return tiles[index];
+        }
+
+        public CollisionResult moveObject(ref float x, ref float y, float w, float h, float mx, float my) {
+		    bool collidedX = true;
+		    bool collidedY = true;
+		    float cx=0, cy=0;
+            if (placeFree(x + mx, y, w, h, out cx, out cy))
+            {
+                x += mx;
+                collidedX = false;
+            }
+            //else x = cx;
+
+            if (placeFree(x, y + my, w, h, out cx, out cy))
+            {
+                y += my;
+                collidedY = false;
+            }
+            //else y = cy;
+
+		    return new CollisionResult(collidedX, collidedY);
+	    }
+
         public IEnumerable<ObjectData> ObjectDatas
         {
             get
@@ -99,6 +170,12 @@ namespace Game
         internal void add(LevelObject levelObject)
         {
             objects.Add(levelObject);
+        }
+
+        public void Dispose()
+        {
+            foreach (var x in objects) x.Dispose();
+            objects.Clear();
         }
     }
 }

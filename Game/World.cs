@@ -8,7 +8,7 @@ using SFML.Graphics;
 
 namespace Game
 {
-    public class World
+    public class World : IDisposable
     {
         public const string kCollisionLayerName = "_collision";
 
@@ -82,6 +82,14 @@ namespace Game
         Layer collisionLayer;
         List<Layer> layers = new List<Layer>();
 
+        public Layer CollisionLayer
+        {
+            get
+            {
+                return collisionLayer;
+            }
+        }
+
         const string kObjectId = "@";
         const string kObjectProp = "object";
 
@@ -134,6 +142,12 @@ namespace Game
         internal void suggestViewCenter(Vector2 vector2)
         {
             center = vector2;
+        }
+
+        public void Dispose()
+        {
+            foreach (var x in layers) x.Dispose();
+            layers.Clear();
         }
     }
 }

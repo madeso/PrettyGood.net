@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game
 {
-    public abstract class LevelObject
+    public abstract class LevelObject :  IDisposable
     {
         public abstract void draw(Game g);
         public abstract void update(float time);
@@ -15,5 +15,7 @@ namespace Game
             get;
             set;
         }
+
+        public abstract void Dispose();
     }
 }
