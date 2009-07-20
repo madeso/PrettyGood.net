@@ -7,7 +7,7 @@ namespace Game.nms
 {
     class Constants
     {
-        public const float kTileSize = 42;
+        public const float kTileSize = 64;
         public const float kPlayerSpeed = 300;
         public const float kGravity = 10;
         public const float kJumpSpeed = 500;
