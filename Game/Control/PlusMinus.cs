@@ -11,30 +11,30 @@ namespace Game.Control
         Down plus = new Down();
         Down minus = new Down();
 
-        public KeyCode Plus
+        public List<KeyCode> Plus
         {
             get
             {
-                return plus.key;
+                return plus.keys;
             }
             set
             {
-                plus.key = value;
+                plus.keys = value;
             }
         }
-        public KeyCode Minus
+        public List<KeyCode> Minus
         {
             get
             {
-                return minus.key;
+                return minus.keys;
             }
             set
             {
-                minus.key = value;
+                minus.keys = value;
             }
         }
 
-        public void update(KeyCode key, bool down)
+        public override void update(KeyCode key, bool down)
         {
             plus.update(key, down);
             minus.update(key, down);
@@ -48,7 +48,7 @@ namespace Game.Control
             }
         }
 
-        public void frame(float delta)
+        public override void frame(float delta)
         {
         }
     }

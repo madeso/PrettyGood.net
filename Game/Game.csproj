@@ -66,6 +66,7 @@
     <Compile Include="Control\Down.cs" />
     <Compile Include="Control\Hit.cs" />
     <Compile Include="Control\InputList.cs" />
+    <Compile Include="Control\Toggle.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Control\Input.cs" />
     <Compile Include="Launcher.cs">

@@ -28,7 +28,7 @@ namespace Game.nms
         bool facingRight = true;
 
         // SFML.Graphics.Font font
-        String2D text;
+        //String2D text;
         //Font font;
 
         State CurrentState
@@ -89,14 +89,14 @@ namespace Game.nms
 
             pos = da.pos;
             //font = new Font("cheeseburger.ttf");
-            text = new String2D("", Font.DefaultFont);
+            //text = new String2D("", Font.DefaultFont);
         }
 
         public override void draw(Game g)
         {
             CurrentAnimation.render(g, pos);
-            text.Position = pos;
-            g.draw(text);
+            //text.Position = pos;
+            //g.draw(text);
         }
 
         private void applyPlayerMovement(float delta, float input)
@@ -141,6 +141,8 @@ namespace Game.nms
                 yVel += Constants.kGravity;
             }
 
+			yVel = MathUtil.MaxMin(-Constants.kMaxSpeed, yVel, Constants.kMaxSpeed);
+
             float tempx;
             float tempy;
             onGround = false == world.CollisionLayer.placeFree(pos.X, y + Constants.kJumpTest, Constants.kTileSize, Constants.kTileSize, out tempx, out tempy);
@@ -166,7 +168,7 @@ namespace Game.nms
                 bonusJumps -= 1;
             }
 
-            text.Text = string.Format("{0} / {1}", onGround, yVel);
+            //text.Text = string.Format("{0} / {1}", onGround, yVel);
         }
 
         public override void Dispose()

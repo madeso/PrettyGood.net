@@ -6,14 +6,14 @@ using SFML.Window;
 
 namespace Game.Control
 {
-    class Down : Input
+    public class Down : Input
     {
-        public KeyCode key;
+		public List<KeyCode> keys = new List<KeyCode>();
         private bool down = false;
 
-        public void update(KeyCode key, bool down)
+        public override void update(KeyCode key, bool down)
         {
-            if (key == this.key) this.down = down;
+			foreach (var k in keys) if (key == k) this.down = down;
         }
 
         public bool IsDown
@@ -24,7 +24,7 @@ namespace Game.Control
             }
         }
 
-        public void frame(float delta)
+		public override void frame(float delta)
         {
         }
     }

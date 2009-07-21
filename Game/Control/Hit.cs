@@ -6,36 +6,21 @@ using SFML.Window;
 
 namespace Game.Control
 {
-    public class Hit : Input
+    public class Hit : Down
     {
-        public List<KeyCode> keys = new List<KeyCode>();
-        private bool down = false;
         private bool old = false;
-
-        public void update(KeyCode key, bool down)
-        {
-            foreach(var k in keys) if (key == k) this.down = down;
-        }
-
-        public bool IsDown
-        {
-            get
-            {
-                return down;
-            }
-        }
 
         public bool IsHit
         {
             get
             {
-                return down && !old;
+                return IsDown && !old;
             }
         }
         
-        public void frame(float delta)
+        public override void frame(float delta)
         {
-            old = down;
+            old = IsDown;
         }
     }
 }

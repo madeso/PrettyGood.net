@@ -26,5 +26,12 @@ namespace Game
             if (length < 0.001f) return vec;
             return vec / length;
         }
-    }
+
+		public static float MaxMin(float min, float val, float max)
+		{
+			if (val > max) return max;
+			else if (val < min) return min;
+			else return val;
+		}
+	}
 }

@@ -19,10 +19,10 @@ namespace Game
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Launcher());
 
-            Launcher l = new Launcher();
-            if (l.ShowDialog() == DialogResult.OK)
+            //Launcher l = new Launcher();
+            //if (l.ShowDialog() == DialogResult.OK)
             {
-                using (var game = new Game(l.Mode, l.Fullscreen))
+                using (var game = new Game(new VideoMode(800,600), false))// l.Mode, l.Fullscreen))
                 {
                     using (var loop = new nms.GameLoop(game))
                     {

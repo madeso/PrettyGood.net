@@ -6,9 +6,9 @@ using SFML.Window;
 
 namespace Game.Control
 {
-    public interface Input
+    public abstract class Input
     {
-        void update(KeyCode key, bool down);
-        void frame(float delta);
+        public abstract void update(KeyCode key, bool down);
+		public abstract void frame(float delta);
     }
 }

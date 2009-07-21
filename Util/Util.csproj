@@ -61,6 +61,7 @@
     <Compile Include="Delegates.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Disk.cs" />
     <Compile Include="ElementBuilder.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -24,16 +24,18 @@ namespace Game.nms
 
             world.parseObjectLayers(creators);
 
-            inputList
-                .add(rightLeftMovement)
-                .add(jumpButton);
+			inputList
+				.add(rightLeftMovement)
+				.add(jumpButton)
+				.add(debugCollision);
         }
 
         
 
         InputList inputList = new InputList();
-        public PlusMinus rightLeftMovement = new PlusMinus { Plus= KeyCode.Right, Minus=KeyCode.Left };
+        public PlusMinus rightLeftMovement = new PlusMinus { Plus= {KeyCode.Right}, Minus={KeyCode.Left} };
         public Hit jumpButton = new Hit { keys = { KeyCode.LShift, KeyCode.RShift}  };
+		public Toggle debugCollision = new Toggle{ keys = { KeyCode.Tab } };
 
         public override void onUpdate(float delta)
         {
@@ -43,16 +45,13 @@ namespace Game.nms
 
         public override void onRender()
         {
-            world.render(debugCollision);
+            world.render(debugCollision.IsToggled);
         }
-
-        bool debugCollision = false;
 
         public override void onKey(SFML.Window.KeyCode key, bool down)
         {
             // escape isnt handled properly?
             if (/*down && */key == SFML.Window.KeyCode.Escape) abort();
-            if (key == SFML.Window.KeyCode.Tab) debugCollision = down;
             inputList.update(key, down);
         }
 
