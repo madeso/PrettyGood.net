@@ -30,8 +30,7 @@ namespace PrettyGood.Util
         public static float GetAttributeFloat(this XmlNode element, string name)
         {
             string v = GetAttributeString(element, name);
-            // todo: fix hacky parsing
-            return (float)double.Parse(v, NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+            return float.Parse(v, NumberStyles.AllowLeadingSign | NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite | NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
         }
 
 		public static string GetAttributeStringOrNull(this XmlNode element, string name)
