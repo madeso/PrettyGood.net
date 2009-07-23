@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("BuilderLib")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("strusoft")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("BuilderLib")]
-[assembly: AssemblyCopyright("Copyright © strusoft 2009")]
+[assembly: AssemblyCopyright("Copyright ©")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
