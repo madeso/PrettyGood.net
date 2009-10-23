@@ -205,7 +205,7 @@ namespace PrettyGood.Util
 			int result = a.Char - '0';
 			a.next();
 
-			while (isnum(a.Char))
+			while (a.hasMore() && isnum(a.Char))
 			{
 				result *= 10;
 				result += a.Char - '0';
