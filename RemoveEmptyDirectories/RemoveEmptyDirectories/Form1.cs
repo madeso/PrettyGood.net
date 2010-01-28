@@ -41,20 +41,18 @@ namespace RemoveEmptyDirectories
                 work(sub);
             }
 
-            int filescount = Directory.GetFiles(dir).Count();
-            int dircount = Directory.GetDirectories(dir).Count();
-            if (dircount + filescount > 0)
+            var files = Directory.GetFiles(dir);
+            if (files.Count() > 0)
             {
-                bool abort = true;
-                if( filescount == 1 )
+                List<string> validfiles = new List<string>();
+                foreach (var f in files)
                 {
-                    var filename = Directory.GetFiles(dir)[0];
-                    if (Path.GetFileName(filename).ToLower() == "thumbs.db")
+                    if (IsUselessFile(f))
                     {
+                        mess("Deleting " + f);
                         try
                         {
-                            File.Delete(filename);
-                            abort = false;
+                            File.Delete(f);
                         }
                         catch (Exception e)
                         {
@@ -63,26 +61,31 @@ namespace RemoveEmptyDirectories
                     }
                     else
                     {
-                        mess(filename + " is stopping removal of directory <" + dir + ">");
+                        if (IsStrangeFile(f))
+                        {
+                            validfiles.Add(f);
+                        }
                     }
                 }
 
-                if( abort )
+                if (validfiles.Count < 10)
                 {
-                    if( dircount == 0 ) mess("ignoring " + dir +" since it contains " + filescount + " files...");
-                    if (filescount < 10)
+                    foreach (var f in validfiles)
                     {
-                        foreach (var f in Directory.GetFiles(dir))
-                        {
-                            mess("   " + f + ": " + new FileInfo(f).Attributes.ToString());
-                        }
+                        mess("   " + f + ": " + new FileInfo(f).Attributes.ToString());
                     }
-                    return;
                 }
             }
 
+            // contains non-empty subdirectories...
+            if( Directory.GetDirectories(dir).Count() > 0 ) return;
+
+            // contains files
+            if( Directory.GetFiles(dir).Count() > 0 ) return;
+
             try
             {
+                mess(dir + " removing...");
                 var di = new DirectoryInfo(dir);
                 di.Attributes = FileAttributes.Normal;
                 
@@ -95,6 +98,23 @@ namespace RemoveEmptyDirectories
             }
 
             mess(dir + " removed!");
+        }
+
+        private bool IsUselessFile(string filename)
+        {
+            var f = filename.ToLower();
+            if (f.EndsWith("thumbs.db")) return true;
+            if (f.EndsWith("desktop.ini")) return true;
+            return false;
+        }
+
+        private bool IsStrangeFile(string filename)
+        {
+            var f = filename.ToLower();
+            if (f.EndsWith(".mp3")) return false;
+            if (f.EndsWith(".mod")) return false;
+            if (f.EndsWith(".ogg")) return false;
+            return true;
         }
 
         private void mess(string m)
