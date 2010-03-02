@@ -114,6 +114,7 @@ namespace RemoveEmptyDirectories
             if (f.EndsWith(".mp3")) return false;
             if (f.EndsWith(".mod")) return false;
             if (f.EndsWith(".ogg")) return false;
+            if (f.EndsWith(".sid")) return false;
             return true;
         }
 
