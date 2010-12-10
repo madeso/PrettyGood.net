@@ -42,6 +42,7 @@
 			this.sfd = new System.Windows.Forms.SaveFileDialog();
 			this.dExcludes = new System.Windows.Forms.CheckedListBox();
 			this.dFillExcludes = new System.Windows.Forms.Button();
+			this.dSimplifyLinks = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -74,7 +75,7 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(15, 93);
+			this.label4.Location = new System.Drawing.Point(13, 113);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(50, 13);
 			this.label4.TabIndex = 3;
@@ -106,6 +107,7 @@
 			this.dFormat.Name = "dFormat";
 			this.dFormat.Size = new System.Drawing.Size(357, 20);
 			this.dFormat.TabIndex = 6;
+			this.dFormat.Text = "png";
 			// 
 			// dBrowseSource
 			// 
@@ -132,7 +134,7 @@
 			// dGo
 			// 
 			this.dGo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.dGo.Location = new System.Drawing.Point(379, 266);
+			this.dGo.Location = new System.Drawing.Point(379, 288);
 			this.dGo.Name = "dGo";
 			this.dGo.Size = new System.Drawing.Size(47, 35);
 			this.dGo.TabIndex = 10;
@@ -150,7 +152,7 @@
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.dExcludes.FormattingEnabled = true;
-			this.dExcludes.Location = new System.Drawing.Point(69, 90);
+			this.dExcludes.Location = new System.Drawing.Point(69, 113);
 			this.dExcludes.Name = "dExcludes";
 			this.dExcludes.Size = new System.Drawing.Size(357, 169);
 			this.dExcludes.TabIndex = 11;
@@ -158,7 +160,7 @@
 			// dFillExcludes
 			// 
 			this.dFillExcludes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.dFillExcludes.Location = new System.Drawing.Point(69, 265);
+			this.dFillExcludes.Location = new System.Drawing.Point(69, 288);
 			this.dFillExcludes.Name = "dFillExcludes";
 			this.dFillExcludes.Size = new System.Drawing.Size(75, 23);
 			this.dFillExcludes.TabIndex = 12;
@@ -166,11 +168,24 @@
 			this.dFillExcludes.UseVisualStyleBackColor = true;
 			this.dFillExcludes.Click += new System.EventHandler(this.dFillExcludes_Click);
 			// 
-			// Form1
+			// dSimplifyLinks
+			// 
+			this.dSimplifyLinks.AutoSize = true;
+			this.dSimplifyLinks.Checked = true;
+			this.dSimplifyLinks.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.dSimplifyLinks.Location = new System.Drawing.Point(69, 90);
+			this.dSimplifyLinks.Name = "dSimplifyLinks";
+			this.dSimplifyLinks.Size = new System.Drawing.Size(61, 17);
+			this.dSimplifyLinks.TabIndex = 13;
+			this.dSimplifyLinks.Text = "Simplify";
+			this.dSimplifyLinks.UseVisualStyleBackColor = true;
+			// 
+			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(471, 313);
+			this.ClientSize = new System.Drawing.Size(471, 347);
+			this.Controls.Add(this.dSimplifyLinks);
 			this.Controls.Add(this.dFillExcludes);
 			this.Controls.Add(this.dExcludes);
 			this.Controls.Add(this.dGo);
@@ -183,7 +198,7 @@
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.label1);
-			this.Name = "Form1";
+			this.Name = "Main";
 			this.Text = "Visual Studio Solution Dependency Graphvizer";
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -206,6 +221,7 @@
 		private System.Windows.Forms.SaveFileDialog sfd;
 		private System.Windows.Forms.CheckedListBox dExcludes;
 		private System.Windows.Forms.Button dFillExcludes;
+		private System.Windows.Forms.CheckBox dSimplifyLinks;
 	}
 }
 

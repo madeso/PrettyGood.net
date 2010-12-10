@@ -9,18 +9,18 @@ namespace SlnDeps
 {
 	class Logic
 	{
-		public static void toGraphviz(string source, string target, string format, List<string> exclude)
+		public static void toGraphviz(string source, string target, string format, List<string> exclude, bool simplify)
 		{
 			if (target.Trim() == "" || target.Trim() == "?") target = Path.ChangeExtension(source, null);
 			if (Directory.Exists(target)) target = Path.Combine(target, Path.GetFileNameWithoutExtension(source));
 			if (format.Trim() == "" || format.Trim() == "?") format = "svg";
 
-			logic(source, exclude, target, format);
+			logic(source, exclude, target, format, simplify);
 		}
 
 		public static IEnumerable<string> GetProjects(string source)
 		{
-			Solution s = new Solution(source);
+			Solution s = new Solution(source, false);
 			foreach (var p in s.projects)
 			{
 				yield return p.Value.Name;
@@ -68,17 +68,17 @@ namespace SlnDeps
 			private string Name;
 			private List<string> includes;
 
-			public Solution(string slnpath, List<string>exclude)
+			public Solution(string slnpath, List<string>exclude, bool simplify)
 			{
-				setup(slnpath, exclude);
+				setup(slnpath, exclude, simplify);
 			}
 
-			public Solution(string slnpath)
+			public Solution(string slnpath, bool simplify)
 			{
-				setup(slnpath, new List<string>());
+				setup(slnpath, new List<string>(), simplify);
 			}
 
-			private void setup(string slnpath, List<string> exclude)
+			private void setup(string slnpath, List<string> exclude, bool dosimplify)
 			{
 				includes = exclude;
 				Name = Path.GetFileNameWithoutExtension(slnpath);
@@ -116,6 +116,8 @@ namespace SlnDeps
 						depProject.sdeps.Add(id);
 					}
 				}
+
+				if (dosimplify) simplify();
 
 				foreach (var p in projects)
 				{
@@ -188,11 +190,42 @@ namespace SlnDeps
 			{
 				File.WriteAllLines(targetFile, Graphviz.ToArray());
 			}
+
+			private void simplify()
+			{
+				foreach (var pe in projects)
+				{
+					simplify(pe.Value);
+				}
+			}
+
+			private void simplify(Project p)
+			{
+				List<string> deps = new List<string>();
+				foreach (var d in p.sdeps)
+				{
+					if (hasDependency(p, d, false) == false)
+					{
+						deps.Add(d);
+					}
+				}
+				p.sdeps = deps;
+			}
+
+			private bool hasDependency(Project p, string sd, bool self)
+			{
+				foreach (var d in p.sdeps)
+				{
+					if (self && d == sd) return true;
+					if (hasDependency(projects[d], sd, true)) return true;
+				}
+				return false;
+			}
 		}
 
-		private static void logic(string solutionFilePath, List<string> exlude, string targetFile, string format)
+		private static void logic(string solutionFilePath, List<string> exlude, string targetFile, string format, bool simplify)
 		{
-			Solution s = new Solution(solutionFilePath, exlude);
+			Solution s = new Solution(solutionFilePath, exlude, simplify);
 			s.writeGraphviz(targetFile);
 			graphviz(targetFile, format);
 		}
