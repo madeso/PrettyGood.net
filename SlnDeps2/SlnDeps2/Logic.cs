@@ -9,13 +9,13 @@ namespace SlnDeps
 {
 	class Logic
 	{
-		public static void toGraphviz(string source, string target, string format, List<string> exclude, bool simplify)
+		public static void toGraphviz(string source, string target, string format, List<string> exclude, bool simplify, string style)
 		{
 			if (target.Trim() == "" || target.Trim() == "?") target = Path.ChangeExtension(source, null);
 			if (Directory.Exists(target)) target = Path.Combine(target, Path.GetFileNameWithoutExtension(source));
 			if (format.Trim() == "" || format.Trim() == "?") format = "svg";
 
-			logic(source, exclude, target, format, simplify);
+			logic(source, exclude, target, format, simplify, style);
 		}
 
 		public static IEnumerable<string> GetProjects(string source)
@@ -223,16 +223,18 @@ namespace SlnDeps
 			}
 		}
 
-		private static void logic(string solutionFilePath, List<string> exlude, string targetFile, string format, bool simplify)
+		private static void logic(string solutionFilePath, List<string> exlude, string targetFile, string format, bool simplify, string style)
 		{
 			Solution s = new Solution(solutionFilePath, exlude, simplify);
 			s.writeGraphviz(targetFile);
-			graphviz(targetFile, format);
+			graphviz(targetFile, format, style);
 		}
 
-		private static void graphviz(string targetFile, string format)
+		private static void graphviz(string targetFile, string format, string style)
 		{
-			var s = new ProcessStartInfo("dot", "-T" + format + " -O " + targetFile);
+			var f = style;
+			if (f.Length != 0) f = " -K" + f;
+			var s = new ProcessStartInfo("dot", "-T" + format + f + " -O " + targetFile);
 			var p = Process.Start(s);
 			p.WaitForExit();
 		}

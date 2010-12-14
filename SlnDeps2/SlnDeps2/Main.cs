@@ -36,7 +36,7 @@ namespace SlnDeps
 				items.Add(c.ToString());
 			}
 			if (items.Count == 0) items = null;
-			Logic.toGraphviz(dSource.Text, dTarget.Text, dFormat.Text, items, dSimplifyLinks.Checked);
+			Logic.toGraphviz(dSource.Text, dTarget.Text, dFormat.Text, items, dSimplifyLinks.Checked, dStyle.Text);
 		}
 
 		private void dFillExcludes_Click(object sender, EventArgs e)
