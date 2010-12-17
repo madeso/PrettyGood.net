@@ -15,8 +15,8 @@ namespace HeaderParser
 
 		public static Node Parse(Graph g, PathList pl, string file, Func<string, MissingFileAction> missingFile)
 		{
-			var wasCreated = g.has(file);
-			var me = g.create(file, pl.simplify(file));
+			var wasCreated = g.has(Simplify(file));
+			var me = g.create(Simplify(file), pl.simplify(file));
 			if (wasCreated==false && Path.IsPathRooted(file) && pl.exclude(file) == false)
 			{
 				var li = File.ReadAllLines(file);
@@ -56,6 +56,11 @@ namespace HeaderParser
 				}
 			}
 			return me;
+		}
+
+		private static string Simplify(string file)
+		{
+			return file.ToLower().Replace('\\', '/');
 		}
 	}
 }
