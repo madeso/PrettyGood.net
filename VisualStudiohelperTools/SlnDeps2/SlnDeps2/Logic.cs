@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.Xml;
 
 namespace SlnDeps
 {
@@ -55,6 +56,13 @@ namespace SlnDeps
 			public string Path;
 			public string Id;
 
+			public Build Type = Build.Unknown;
+
+			public enum Build
+			{
+				Unknown, Application, Static, Shared
+			}
+
 			public override string ToString()
 			{
 				return Name;
@@ -69,6 +77,25 @@ namespace SlnDeps
 				{
 					deps.Add(projects[s]);
 				}
+			}
+
+			internal void loadInformation()
+			{
+				var f = File.ReadAllText(Path);
+				//throw new NotImplementedException();
+				XmlDocument doc = new XmlDocument();
+				doc.Load(Path);
+				var l = new List<string>();
+				foreach (XmlElement n in doc.SelectNodes("VisualStudioProject/Configurations/Configuration[@ConfigurationType]"))
+				{
+					var v = n.Attributes["ConfigurationType"].Value;
+					if( l.Contains(v) == false ) l.Add(v);
+				}
+				var suggestedType = l[0];
+				Type = Build.Unknown;
+				if (suggestedType == "2") Type = Build.Shared;
+				else if (suggestedType == "4") Type = Build.Static;
+				else if (suggestedType == "1") Type = Build.Application;
 			}
 		}
 
@@ -129,6 +156,7 @@ namespace SlnDeps
 				foreach (var p in projects)
 				{
 					p.Value.resolve(projects);
+					p.Value.loadInformation();
 				}
 			}
 
@@ -153,8 +181,29 @@ namespace SlnDeps
 
 					foreach (var p in projects)
 					{
-						if (Exclude(p.Value.Name)) continue;
-						lines.Add(" " + p.Value.Name + " [label=\"" + p.Value.DisplayName + "\"]" + ";");
+						var pro = p.Value;
+						if (Exclude(pro.Name)) continue;
+
+						string decoration = "label=\"" + pro.DisplayName + "\"";
+
+						string shape = "plaintext";
+
+						if (pro.Type == Project.Build.Application)
+						{
+							shape = "folder";
+						}
+						else if (pro.Type == Project.Build.Shared)
+						{
+							shape = "ellipse";
+						}
+						else if (pro.Type == Project.Build.Static)
+						{
+							shape = "component";
+						}
+
+						decoration += ", shape=" + shape;
+
+						lines.Add(" " + pro.Name + " [" + decoration + "]" + ";");
 					}
 
 					lines.Add("");
