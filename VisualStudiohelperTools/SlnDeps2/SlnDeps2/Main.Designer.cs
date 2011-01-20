@@ -45,6 +45,7 @@
 			this.dSimplifyLinks = new System.Windows.Forms.CheckBox();
 			this.dStyle = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
+			this.dOpen = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -209,11 +210,23 @@
 			this.label5.TabIndex = 15;
 			this.label5.Text = "Layout:";
 			// 
+			// dOpen
+			// 
+			this.dOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.dOpen.Location = new System.Drawing.Point(432, 298);
+			this.dOpen.Name = "dOpen";
+			this.dOpen.Size = new System.Drawing.Size(27, 23);
+			this.dOpen.TabIndex = 16;
+			this.dOpen.Text = "O";
+			this.dOpen.UseVisualStyleBackColor = true;
+			this.dOpen.Click += new System.EventHandler(this.dOpen_Click);
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(471, 347);
+			this.Controls.Add(this.dOpen);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.dStyle);
 			this.Controls.Add(this.dSimplifyLinks);
@@ -255,6 +268,7 @@
 		private System.Windows.Forms.CheckBox dSimplifyLinks;
 		private System.Windows.Forms.ComboBox dStyle;
 		private System.Windows.Forms.Label label5;
+		private System.Windows.Forms.Button dOpen;
 	}
 }
 

@@ -47,5 +47,12 @@ namespace SlnDeps
 				dExcludes.Items.Add(s, true);
 			}
 		}
+
+		private void dOpen_Click(object sender, EventArgs e)
+		{
+			string file = Logic.getFile(dSource.Text, dTarget.Text, dFormat.Text);
+			//var s = new System.Diagnostics.ProcessStartInfo("file");
+			var p = System.Diagnostics.Process.Start(file);
+		}
 	}
 }

@@ -18,6 +18,16 @@ namespace SlnDeps
 			logic(source, exclude, target, format, simplify, style);
 		}
 
+		internal static string getFile(string source, string target, string format)
+		{
+			if (target.Trim() == "" || target.Trim() == "?") target = Path.ChangeExtension(source, null);
+			if (Directory.Exists(target)) target = Path.Combine(target, Path.GetFileNameWithoutExtension(source));
+			if (format.Trim() == "" || format.Trim() == "?") format = "svg";
+
+			var f = Path.ChangeExtension(target, format);
+			return f;
+		}
+
 		public static IEnumerable<string> GetProjects(string source)
 		{
 			Solution s = new Solution(source, false);
