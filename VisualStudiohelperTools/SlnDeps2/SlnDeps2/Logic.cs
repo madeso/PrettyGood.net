@@ -175,7 +175,7 @@ namespace SlnDeps
 						foreach (var s in p.Value.deps)
 						{
 							if (Exclude(s.Name)) continue;
-							lines.Add(" " + s.Name + " -> " + p.Value.Name + ";");
+							lines.Add(" " + p.Value.Name + " -> " + s.Name + ";");
 						}
 					}
 
