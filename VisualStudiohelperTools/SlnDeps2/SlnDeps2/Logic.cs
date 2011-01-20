@@ -9,13 +9,13 @@ namespace SlnDeps
 {
 	class Logic
 	{
-		public static void toGraphviz(string source, string target, string format, List<string> exclude, bool simplify, string style)
+		public static void toGraphviz(string source, string target, string format, List<string> exclude, bool simplify, string style, bool reverseArrows)
 		{
 			if (target.Trim() == "" || target.Trim() == "?") target = Path.ChangeExtension(source, null);
 			if (Directory.Exists(target)) target = Path.Combine(target, Path.GetFileNameWithoutExtension(source));
 			if (format.Trim() == "" || format.Trim() == "?") format = "svg";
 
-			logic(source, exclude, target, format, simplify, style);
+			logic(source, exclude, target, format, simplify, style, reverseArrows);
 		}
 
 		internal static string getFile(string source, string target, string format)
@@ -30,7 +30,7 @@ namespace SlnDeps
 
 		public static IEnumerable<string> GetProjects(string source)
 		{
-			Solution s = new Solution(source, false);
+			Solution s = new Solution(source, new List<string>(), false, false);
 			foreach (var p in s.projects)
 			{
 				yield return p.Value.Name;
@@ -77,15 +77,12 @@ namespace SlnDeps
 			public Dictionary<string, Project> projects = new Dictionary<string, Project>();
 			private string Name;
 			private List<string> includes;
+			private bool reverseArrows = false;
 
-			public Solution(string slnpath, List<string>exclude, bool simplify)
+			public Solution(string slnpath, List<string>exclude, bool simplify, bool reverseArrows)
 			{
+				this.reverseArrows = reverseArrows;
 				setup(slnpath, exclude, simplify);
-			}
-
-			public Solution(string slnpath, bool simplify)
-			{
-				setup(slnpath, new List<string>(), simplify);
 			}
 
 			private void setup(string slnpath, List<string> exclude, bool dosimplify)
@@ -175,7 +172,10 @@ namespace SlnDeps
 						foreach (var s in p.Value.deps)
 						{
 							if (Exclude(s.Name)) continue;
-							lines.Add(" " + p.Value.Name + " -> " + s.Name + ";");
+							if( reverseArrows )
+								lines.Add(" " + s.Name + " -> " + p.Value.Name + ";");
+							else
+								lines.Add(" " + p.Value.Name + " -> " + s.Name + ";");
 						}
 					}
 
@@ -233,9 +233,9 @@ namespace SlnDeps
 			}
 		}
 
-		private static void logic(string solutionFilePath, List<string> exlude, string targetFile, string format, bool simplify, string style)
+		private static void logic(string solutionFilePath, List<string> exlude, string targetFile, string format, bool simplify, string style, bool reverseArrows)
 		{
-			Solution s = new Solution(solutionFilePath, exlude, simplify);
+			Solution s = new Solution(solutionFilePath, exlude, simplify, reverseArrows);
 			s.writeGraphviz(targetFile);
 			graphviz(targetFile, format, style);
 		}

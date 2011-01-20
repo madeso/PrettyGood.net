@@ -46,6 +46,7 @@
 			this.dStyle = new System.Windows.Forms.ComboBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.dOpen = new System.Windows.Forms.Button();
+			this.dReverseArrows = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -221,11 +222,22 @@
 			this.dOpen.UseVisualStyleBackColor = true;
 			this.dOpen.Click += new System.EventHandler(this.dOpen_Click);
 			// 
+			// dReverseArrows
+			// 
+			this.dReverseArrows.AutoSize = true;
+			this.dReverseArrows.Location = new System.Drawing.Point(136, 92);
+			this.dReverseArrows.Name = "dReverseArrows";
+			this.dReverseArrows.Size = new System.Drawing.Size(162, 17);
+			this.dReverseArrows.TabIndex = 17;
+			this.dReverseArrows.Text = "Reverse dependency arrows";
+			this.dReverseArrows.UseVisualStyleBackColor = true;
+			// 
 			// Main
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(471, 347);
+			this.Controls.Add(this.dReverseArrows);
 			this.Controls.Add(this.dOpen);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.dStyle);
@@ -269,6 +281,7 @@
 		private System.Windows.Forms.ComboBox dStyle;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button dOpen;
+		private System.Windows.Forms.CheckBox dReverseArrows;
 	}
 }
 
