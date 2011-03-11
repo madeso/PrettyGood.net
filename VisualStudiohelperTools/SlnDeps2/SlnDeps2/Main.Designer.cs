@@ -155,6 +155,7 @@
 			this.dExcludes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
+			this.dExcludes.CheckOnClick = true;
 			this.dExcludes.FormattingEnabled = true;
 			this.dExcludes.Location = new System.Drawing.Point(69, 117);
 			this.dExcludes.Name = "dExcludes";
@@ -256,6 +257,7 @@
 			this.Controls.Add(this.label1);
 			this.Name = "Main";
 			this.Text = "Visual Studio Solution Dependency Graphvizer";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_FormClosing);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
