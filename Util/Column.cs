@@ -15,7 +15,7 @@ namespace PrettyGood.Util
 		public Column(string name)
 		{
 			this.title = name;
-			displayPattern = new Pattern("eval " + name);
+			displayPattern = Pattern.Compile("%" + name + "%");
 		}
 
 		ColumnHeader header;

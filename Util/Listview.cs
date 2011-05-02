@@ -247,7 +247,7 @@ namespace PrettyGood.Util
 
 		public string resolve(Pattern p, T t)
 		{
-			return p.resolve(name => lookup(t, name));
+			return ""; // p.resolve(name => lookup(t, name));
 		}
 
 		public void clear()
