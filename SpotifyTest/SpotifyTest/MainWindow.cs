@@ -132,7 +132,7 @@ namespace PrettyGood.SpotifyTest
 		private void updateActions()
 		{
 			dSaveXml.Enabled = data != null;
-			dSavePlaylist.Enabled = data != null;
+			//dSavePlaylist.Enabled = data != null;
 		}
 
 		private void dSaveXml_Click(object sender, EventArgs e)
@@ -149,9 +149,9 @@ namespace PrettyGood.SpotifyTest
 			b.Document.Save(sfdXml.FileName);
 		}
 
+		PlayListSaver pl = new PlayListSaver();
 		private void dSavePlaylist_Click(object sender, EventArgs e)
 		{
-			PlayListSaver pl = new PlayListSaver();
 			pl.data = data;
 			pl.ShowDialog(this);
 		}

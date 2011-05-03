@@ -17,6 +17,8 @@ namespace PrettyGood.SpotifyTest
 		public PlayListSaver()
 		{
 			InitializeComponent();
+			addRoot(System.Environment.GetFolderPath( Environment.SpecialFolder.MyMusic ));
+			addRoot(System.Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
 		}
 
 		private void dSave_Click(object sender, EventArgs e)
@@ -26,16 +28,9 @@ namespace PrettyGood.SpotifyTest
 				if (sfd.ShowDialog() != DialogResult.OK) return;
 				List<string> lines = new List<string>();
 
-				var p = Util.Pattern.Compile(dFormat.Text);
-				var f = Util.Pattern.DefaultFunctions();
 				foreach (var d in data)
 				{
-					Dictionary<string, string> dic = new Dictionary<string, string>();
-					dic.Add("artist", d.Artist);
-					dic.Add("album", d.Album);
-					dic.Add("title", d.Title);
-					dic.Add("track", d.Tracknumber);
-					var l = p.eval(f, dic);
+					var l = mdata.getPath(d.Artist, d.Album, d.Title, d.Tracknumber);
 					lines.Add(l);
 				}
 
@@ -50,7 +45,31 @@ namespace PrettyGood.SpotifyTest
 		private void dSetRoot_Click(object sender, EventArgs e)
 		{
 			if (dFolder.ShowDialog() != DialogResult.OK) return;
-			dRoot.Text = dFolder.SelectedPath;
+			addRoot(dFolder.SelectedPath);
+		}
+
+		private void addRoot(string p)
+		{
+			dRoots.AppendText(p);
+			dRoots.AppendText("\r\n");
+		}
+
+		private void PlayListSaver_Load(object sender, EventArgs e)
+		{
+			dSave.Enabled = data != null;
+		}
+
+		MusicData mdata = new MusicData();
+		private void dCompile_Click(object sender, EventArgs e)
+		{
+			mdata = new MusicData();
+			// move to a comile step?
+			foreach (string l in Util.Strings.RemoveEmpty(dRoots.Lines))
+			{
+				mdata.add(l);
+			}
+
+			dCompileResults.Text = string.Format("Found {0} songs", mdata.Count);
 		}
 	}
 }
