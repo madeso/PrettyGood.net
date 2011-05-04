@@ -25,13 +25,21 @@ namespace PrettyGood.SpotifyTest
 		{
 			try
 			{
+				dOutput.Text = "";
 				if (sfd.ShowDialog() != DialogResult.OK) return;
 				List<string> lines = new List<string>();
 
 				foreach (var d in data)
 				{
 					var l = mdata.getPath(d.Artist, d.Album, d.Title, d.Tracknumber);
-					lines.Add(l);
+					if (l != "")
+					{
+						lines.Add(l);
+					}
+					else
+					{
+						dOutput.AppendText(string.Format("Missing from library: {0} - {1} - {2}\r\n", d.Artist, d.Title, d.Album));
+					}
 				}
 
 				File.WriteAllLines(sfd.FileName, lines.ToArray());
@@ -62,13 +70,46 @@ namespace PrettyGood.SpotifyTest
 		MusicData mdata = new MusicData();
 		private void dCompile_Click(object sender, EventArgs e)
 		{
-			mdata = new MusicData();
+			dCompileResults.Text = "Compiling";
+			dCompile.Enabled = false;
+			dSave.Enabled = false;
+			List<string> l = new List<string>(Util.Strings.RemoveEmpty(dRoots.Lines));
+			dCompiler.RunWorkerAsync(l);
+		}
+
+		private void dCompiler_DoWork(object sender, DoWorkEventArgs e)
+		{
+			var li = (List<string>)e.Argument;
+			MusicData mdata = new MusicData();
 			// move to a comile step?
-			foreach (string l in Util.Strings.RemoveEmpty(dRoots.Lines))
+			List<string> files = new List<string>();
+			foreach (string l in li)
 			{
+				files.AddRange(mdata.getFiles(l));
+			}
+			for(int i=0;i<files.Count; ++i)
+			{
+				var l = files[i];
 				mdata.add(l);
+				if (i % 20 == 0)
+				{
+					dCompiler.ReportProgress((int)((100.0f * i) / files.Count), mdata.Count);
+				}
 			}
 
+			e.Result = mdata;
+		}
+
+		private void dCompiler_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+			dCompileResults.Text = string.Format("Compiling ({0}%) found {1}", e.ProgressPercentage, e.UserState);
+		}
+
+		private void dCompiler_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			dCompile.Enabled = true;
+			dSave.Enabled = true;
+			mdata = (MusicData) e.Result;
 			dCompileResults.Text = string.Format("Found {0} songs", mdata.Count);
 		}
 	}

@@ -36,6 +36,8 @@
 			this.dRoots = new System.Windows.Forms.TextBox();
 			this.dCompile = new System.Windows.Forms.Button();
 			this.dCompileResults = new System.Windows.Forms.Label();
+			this.dOutput = new System.Windows.Forms.TextBox();
+			this.dCompiler = new System.ComponentModel.BackgroundWorker();
 			this.SuspendLayout();
 			// 
 			// dSetRoot
@@ -52,7 +54,7 @@
 			// dSave
 			// 
 			this.dSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.dSave.Location = new System.Drawing.Point(469, 142);
+			this.dSave.Location = new System.Drawing.Point(469, 272);
 			this.dSave.Name = "dSave";
 			this.dSave.Size = new System.Drawing.Size(75, 23);
 			this.dSave.TabIndex = 3;
@@ -76,8 +78,7 @@
 			// 
 			// dRoots
 			// 
-			this.dRoots.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-						| System.Windows.Forms.AnchorStyles.Left)
+			this.dRoots.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
 			this.dRoots.Location = new System.Drawing.Point(56, 14);
 			this.dRoots.Multiline = true;
@@ -89,7 +90,8 @@
 			// 
 			// dCompile
 			// 
-			this.dCompile.Location = new System.Drawing.Point(56, 142);
+			this.dCompile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.dCompile.Location = new System.Drawing.Point(56, 272);
 			this.dCompile.Name = "dCompile";
 			this.dCompile.Size = new System.Drawing.Size(75, 23);
 			this.dCompile.TabIndex = 7;
@@ -99,19 +101,41 @@
 			// 
 			// dCompileResults
 			// 
-			this.dCompileResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+			this.dCompileResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.dCompileResults.Location = new System.Drawing.Point(137, 147);
+			this.dCompileResults.Location = new System.Drawing.Point(137, 277);
 			this.dCompileResults.Name = "dCompileResults";
 			this.dCompileResults.Size = new System.Drawing.Size(326, 18);
 			this.dCompileResults.TabIndex = 8;
 			this.dCompileResults.Text = "Not Compiled!";
 			// 
+			// dOutput
+			// 
+			this.dOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+						| System.Windows.Forms.AnchorStyles.Left)
+						| System.Windows.Forms.AnchorStyles.Right)));
+			this.dOutput.Location = new System.Drawing.Point(56, 142);
+			this.dOutput.Multiline = true;
+			this.dOutput.Name = "dOutput";
+			this.dOutput.ReadOnly = true;
+			this.dOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+			this.dOutput.Size = new System.Drawing.Size(488, 124);
+			this.dOutput.TabIndex = 9;
+			this.dOutput.WordWrap = false;
+			// 
+			// dCompiler
+			// 
+			this.dCompiler.WorkerReportsProgress = true;
+			this.dCompiler.DoWork += new System.ComponentModel.DoWorkEventHandler(this.dCompiler_DoWork);
+			this.dCompiler.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.dCompiler_RunWorkerCompleted);
+			this.dCompiler.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.dCompiler_ProgressChanged);
+			// 
 			// PlayListSaver
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(603, 177);
+			this.ClientSize = new System.Drawing.Size(603, 307);
+			this.Controls.Add(this.dOutput);
 			this.Controls.Add(this.dCompileResults);
 			this.Controls.Add(this.dCompile);
 			this.Controls.Add(this.dRoots);
@@ -136,5 +160,7 @@
 		private System.Windows.Forms.TextBox dRoots;
 		private System.Windows.Forms.Button dCompile;
 		private System.Windows.Forms.Label dCompileResults;
+		private System.Windows.Forms.TextBox dOutput;
+		private System.ComponentModel.BackgroundWorker dCompiler;
 	}
 }
