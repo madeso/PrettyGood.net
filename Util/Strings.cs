@@ -85,6 +85,22 @@ namespace PrettyGood.Util
 			else return str;
 		}
 
+		public static string RemoveFromStartIfFound(this string str, string extra)
+		{
+			if (str.StartsWith(extra)) return str.Substring(extra.Length);
+			else return str;
+		}
+
+		public static string RemoveAll(this string str, params string[] torem)
+		{
+			string t = str;
+			foreach (var s in torem)
+			{
+				t = t.Replace(s, "");
+			}
+			return t;
+		}
+
 		public static string RemoveUnderscores(this string str)
 		{
 			return str.Replace('_', ' ');

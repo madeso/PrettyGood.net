@@ -67,25 +67,31 @@ namespace PrettyGood.SpotifyTest
 			dSave.Enabled = data != null;
 		}
 
+		class CompileData
+		{
+			public List<string> list;
+			public bool Clean;
+
+		}
+
 		MusicData mdata = new MusicData();
 		private void dCompile_Click(object sender, EventArgs e)
 		{
 			dCompileResults.Text = "Compiling";
 			dCompile.Enabled = false;
 			dSave.Enabled = false;
-			List<string> l = new List<string>(Util.Strings.RemoveEmpty(dRoots.Lines));
-			dCompiler.RunWorkerAsync(l);
+			dCompiler.RunWorkerAsync(new CompileData { list = new List<string>(Util.Strings.RemoveEmpty(dRoots.Lines)), Clean = dClean.Checked });
 		}
 
 		private void dCompiler_DoWork(object sender, DoWorkEventArgs e)
 		{
 			try
 			{
-				var li = (List<string>)e.Argument;
-				MusicData mdata = new MusicData();
+				var da = (CompileData)e.Argument;
+				MusicData mdata = new MusicData { Clean = da.Clean };
 				// move to a comile step?
 				List<string> files = new List<string>();
-				foreach (string l in li)
+				foreach (string l in da.list)
 				{
 					files.AddRange(mdata.getFiles(l));
 				}

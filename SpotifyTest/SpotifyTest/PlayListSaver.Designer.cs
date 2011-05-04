@@ -38,6 +38,7 @@
 			this.dCompileResults = new System.Windows.Forms.Label();
 			this.dOutput = new System.Windows.Forms.TextBox();
 			this.dCompiler = new System.ComponentModel.BackgroundWorker();
+			this.dClean = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// dSetRoot
@@ -53,8 +54,8 @@
 			// 
 			// dSave
 			// 
-			this.dSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.dSave.Location = new System.Drawing.Point(469, 272);
+			this.dSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.dSave.Location = new System.Drawing.Point(469, 165);
 			this.dSave.Name = "dSave";
 			this.dSave.Size = new System.Drawing.Size(75, 23);
 			this.dSave.TabIndex = 3;
@@ -90,8 +91,7 @@
 			// 
 			// dCompile
 			// 
-			this.dCompile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.dCompile.Location = new System.Drawing.Point(56, 272);
+			this.dCompile.Location = new System.Drawing.Point(56, 165);
 			this.dCompile.Name = "dCompile";
 			this.dCompile.Size = new System.Drawing.Size(75, 23);
 			this.dCompile.TabIndex = 7;
@@ -101,9 +101,9 @@
 			// 
 			// dCompileResults
 			// 
-			this.dCompileResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+			this.dCompileResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.dCompileResults.Location = new System.Drawing.Point(137, 277);
+			this.dCompileResults.Location = new System.Drawing.Point(137, 170);
 			this.dCompileResults.Name = "dCompileResults";
 			this.dCompileResults.Size = new System.Drawing.Size(326, 18);
 			this.dCompileResults.TabIndex = 8;
@@ -114,12 +114,12 @@
 			this.dOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
 						| System.Windows.Forms.AnchorStyles.Left)
 						| System.Windows.Forms.AnchorStyles.Right)));
-			this.dOutput.Location = new System.Drawing.Point(56, 142);
+			this.dOutput.Location = new System.Drawing.Point(56, 194);
 			this.dOutput.Multiline = true;
 			this.dOutput.Name = "dOutput";
 			this.dOutput.ReadOnly = true;
 			this.dOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-			this.dOutput.Size = new System.Drawing.Size(488, 124);
+			this.dOutput.Size = new System.Drawing.Size(488, 101);
 			this.dOutput.TabIndex = 9;
 			this.dOutput.WordWrap = false;
 			// 
@@ -130,11 +130,24 @@
 			this.dCompiler.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.dCompiler_RunWorkerCompleted);
 			this.dCompiler.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.dCompiler_ProgressChanged);
 			// 
+			// dClean
+			// 
+			this.dClean.AutoSize = true;
+			this.dClean.Checked = true;
+			this.dClean.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.dClean.Location = new System.Drawing.Point(56, 142);
+			this.dClean.Name = "dClean";
+			this.dClean.Size = new System.Drawing.Size(53, 17);
+			this.dClean.TabIndex = 10;
+			this.dClean.Text = "Clean";
+			this.dClean.UseVisualStyleBackColor = true;
+			// 
 			// PlayListSaver
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(603, 307);
+			this.Controls.Add(this.dClean);
 			this.Controls.Add(this.dOutput);
 			this.Controls.Add(this.dCompileResults);
 			this.Controls.Add(this.dCompile);
@@ -162,5 +175,6 @@
 		private System.Windows.Forms.Label dCompileResults;
 		private System.Windows.Forms.TextBox dOutput;
 		private System.ComponentModel.BackgroundWorker dCompiler;
+		private System.Windows.Forms.CheckBox dClean;
 	}
 }

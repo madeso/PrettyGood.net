@@ -53,10 +53,10 @@ namespace PrettyGood.SpotifyTest
 			if (string.IsNullOrEmpty(path)) return false;
 			if (string.IsNullOrEmpty(title)) return false;
 
-			Artist a = Get<Artist>(artists, ID( artist ), new Artist { Name = artist });
-			Track t = Get<Track>(a.Tracks, ID(title), new Track { Name = title });
+			Artist a = Get<Artist>(artists, clean(ID(artist)).RemoveFromStartIfFound("the ").Trim(), new Artist { Name = artist });
+			Track t = Get<Track>(a.Tracks, clean(ID(title)), new Track { Name = title });
 
-			foreach(var s in Util.CSharp.Enumerate("", album))
+			foreach(var s in Util.CSharp.Enumerate("", clean(album)))
 			{
 				Album al = Get<Album>(t.Albums, ID(s), new Album { Name = s});
 				if (al.Number == "" && tracknumber != "") al.Number = tracknumber;
@@ -65,7 +65,21 @@ namespace PrettyGood.SpotifyTest
 
 			return true;
 		}
-		public int Count = 0;
+
+		private string clean(string p)
+		{
+			if (p == null) return p;
+			if (Clean) return p.RemoveAll("'", "`", "´", "!", "(", ")", "[", "]", "{", "}", "/", "\\", "&", ",", "#", "-", ",", ".");
+			else return p;
+		}
+
+		public int Count
+		{
+			get;
+			private set;
+		}
+
+		public bool Clean = false;
 
 		private static IEnumerable<string> Files(string root, string[] ex)
 		{
@@ -102,11 +116,11 @@ namespace PrettyGood.SpotifyTest
 
 		internal string getPath(string artist, string album, string title, string tracknumber)
 		{
-			Artist a = Get<Artist>(artists, ID(artist), null);
+			Artist a = Get<Artist>(artists, clean(ID(artist)).RemoveFromStartIfFound("the ").Trim(), null);
 			if (a == null) return "";
-			Track t = Get<Track>(a.Tracks, ID(title), null);
+			Track t = Get<Track>(a.Tracks, clean(ID(title)), null);
 			if (t == null) return "";
-			Album al = Get<Album>(t.Albums, ID(album), null);
+			Album al = Get<Album>(t.Albums, clean(ID(album)), null);
 			if (al == null)
 			{
 				al = Get<Album>(t.Albums, "", null);
