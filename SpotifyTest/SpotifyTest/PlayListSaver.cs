@@ -79,25 +79,32 @@ namespace PrettyGood.SpotifyTest
 
 		private void dCompiler_DoWork(object sender, DoWorkEventArgs e)
 		{
-			var li = (List<string>)e.Argument;
-			MusicData mdata = new MusicData();
-			// move to a comile step?
-			List<string> files = new List<string>();
-			foreach (string l in li)
+			try
 			{
-				files.AddRange(mdata.getFiles(l));
-			}
-			for(int i=0;i<files.Count; ++i)
-			{
-				var l = files[i];
-				mdata.add(l);
-				if (i % 20 == 0)
+				var li = (List<string>)e.Argument;
+				MusicData mdata = new MusicData();
+				// move to a comile step?
+				List<string> files = new List<string>();
+				foreach (string l in li)
 				{
-					dCompiler.ReportProgress((int)((100.0f * i) / files.Count), mdata.Count);
+					files.AddRange(mdata.getFiles(l));
 				}
-			}
+				for (int i = 0; i < files.Count; ++i)
+				{
+					var l = files[i];
+					mdata.add(l);
+					if (i % 20 == 0)
+					{
+						dCompiler.ReportProgress((int)((100.0f * i) / files.Count), mdata.Count);
+					}
+				}
 
-			e.Result = mdata;
+				e.Result = mdata;
+			}
+			catch (Exception ex)
+			{
+				e.Result = ex;
+			}
 		}
 
 		private void dCompiler_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -109,8 +116,19 @@ namespace PrettyGood.SpotifyTest
 		{
 			dCompile.Enabled = true;
 			dSave.Enabled = true;
-			mdata = (MusicData) e.Result;
-			dCompileResults.Text = string.Format("Found {0} songs", mdata.Count);
+			string result = "";
+			if (e.Result is Exception)
+			{
+				var x = (Exception) e.Result;
+				mdata = new MusicData();
+				result = x.ToString();
+			}
+			else
+			{
+				mdata = (MusicData)e.Result;
+				result = string.Format("Found {0} songs", mdata.Count);
+			}
+			dCompileResults.Text = result;
 		}
 	}
 }
