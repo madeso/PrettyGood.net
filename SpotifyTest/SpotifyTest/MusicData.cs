@@ -69,8 +69,11 @@ namespace PrettyGood.SpotifyTest
 		private string clean(string p)
 		{
 			if (p == null) return p;
-			if (Clean) return p.RemoveAll("'", "`", "´", "!", "(", ")", "[", "]", "{", "}", "/", "\\", "&", ",", "#", "-", ",", ".");
-			else return p;
+            string s = p;
+            if (Words) s = s.RemoveAll("bonus track", "original version", "radio version", "album version explcit", "album version");
+            if (SmartReplace) s = s.Replace("and", "&");
+			if (Clean) s = s.RemoveAll("'", "`", "´", "!", "(", ")", "[", "]", "{", "}", "/", "\\", ",", "#", "-", ",", ".", " ", "?");
+			return s;
 		}
 
 		public int Count
@@ -79,7 +82,9 @@ namespace PrettyGood.SpotifyTest
 			private set;
 		}
 
-		public bool Clean = false;
+		public bool Clean = true;
+        public bool Words = true;
+        public bool SmartReplace = true;
 
 		private static IEnumerable<string> Files(string root, string[] ex)
 		{
@@ -97,21 +102,39 @@ namespace PrettyGood.SpotifyTest
 			return new List<string>(Files(root, new string[] { "mp3", "flac", "ogg" }));
 		}
 
+        bool SingleEntryPerFile = true;
+
 		internal void add(string p)
 		{
-			var f = TagLib.File.Create(p);
+            try
+            {
+                var f = TagLib.File.Create(p);
 
-			bool added = false;
+                bool added = false;
 
-			foreach (var x in Util.CSharp.Enumerate(TagLib.TagTypes.Id3v2, TagLib.TagTypes.Id3v1))
-			{
-				var t = f.GetTag(x);
-				if (t == null) continue;
-				bool ok = add(t.JoinedPerformers, t.Album, t.Title, t.Track.ToString(), p);
-				if (ok) added = true;
-			}
+                foreach (var x in Util.CSharp.Enumerate(TagLib.TagTypes.Id3v2, TagLib.TagTypes.Id3v1))
+                {
+                    TagLib.Tag t = null;
+                    try
+                    {
+                        t = f.GetTag(x);
+                    }
+                    catch (Exception e)
+                    {
+                        // missing tag...
+                    }
+                    if (t == null) continue;
+                    bool ok = add(t.JoinedPerformers, t.Album, t.Title, t.Track.ToString(), p);
+                    if (ok) added = true;
+                    if (ok && SingleEntryPerFile) break;
+                }
 
-			if( added ) ++Count; 
+                if (added) ++Count;
+            }
+            catch (TagLib.CorruptFileException cf)
+            {
+                // we should probably notify user...
+            }
 		}
 
 		internal string getPath(string artist, string album, string title, string tracknumber)
