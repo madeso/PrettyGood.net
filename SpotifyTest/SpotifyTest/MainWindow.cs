@@ -21,6 +21,7 @@ namespace PrettyGood.SpotifyTest
 			updateButtons();
 		}
 
+		private System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
 		XmlElement get(string uri)
 		{
 			var url = string.Format("http://ws.spotify.com/lookup/1/?uri={0}", uri);
@@ -32,13 +33,23 @@ namespace PrettyGood.SpotifyTest
 				xml = Web.FetchString(url, ref enc);
 				if (xml.StartsWith("You"))
 				{
+					dWorker.ReportProgress(200, string.Format("Error: {0}", xml));
 					Thread.Sleep(1000 * 10);
 					int i = 0;
 					++i;
 				}
 				else
 				{
-					Thread.Sleep(100);
+					sw.Reset();
+					sw.Start();
+					int millistep = 50;
+					int milliwait = 200;
+					do
+					{
+						Thread.Sleep(millistep);
+					}
+					while (sw.ElapsedMilliseconds < milliwait);
+					sw.Stop();
 					done = true;
 				}
 			}
@@ -116,7 +127,10 @@ namespace PrettyGood.SpotifyTest
 		{
 			var s = (string) e.UserState;
 			dOutput.AppendText(s + "\r\n");
-			dProgress.Value = e.ProgressPercentage;
+			if (e.ProgressPercentage < 101)
+			{
+				dProgress.Value = e.ProgressPercentage;
+			}
 		}
 
 		List<Data> data = null;
