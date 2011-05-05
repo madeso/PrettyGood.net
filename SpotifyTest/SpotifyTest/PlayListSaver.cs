@@ -71,7 +71,8 @@ namespace PrettyGood.SpotifyTest
 		{
 			public List<string> list;
 			public bool Clean;
-
+			public bool Words;
+			public bool SmartReplace;
 		}
 
 		MusicData mdata = new MusicData();
@@ -80,7 +81,7 @@ namespace PrettyGood.SpotifyTest
 			dCompileResults.Text = "Compiling";
 			dCompile.Enabled = false;
 			dSave.Enabled = false;
-			dCompiler.RunWorkerAsync(new CompileData { list = new List<string>(Util.Strings.RemoveEmpty(dRoots.Lines)), Clean = dClean.Checked });
+			dCompiler.RunWorkerAsync(new CompileData { list = new List<string>(Util.Strings.RemoveEmpty(dRoots.Lines)), Clean = dClean.Checked, SmartReplace=dSmartReplace.Checked, Words=dWords.Checked });
 		}
 
 		private void dCompiler_DoWork(object sender, DoWorkEventArgs e)
@@ -88,7 +89,7 @@ namespace PrettyGood.SpotifyTest
 			try
 			{
 				var da = (CompileData)e.Argument;
-				MusicData mdata = new MusicData { Clean = da.Clean };
+				MusicData mdata = new MusicData { Clean = da.Clean, SmartReplace=da.SmartReplace, Words=da.Words };
 				// move to a comile step?
 				List<string> files = new List<string>();
 				foreach (string l in da.list)

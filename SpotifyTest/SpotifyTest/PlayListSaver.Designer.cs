@@ -39,6 +39,8 @@
 			this.dOutput = new System.Windows.Forms.TextBox();
 			this.dCompiler = new System.ComponentModel.BackgroundWorker();
 			this.dClean = new System.Windows.Forms.CheckBox();
+			this.dWords = new System.Windows.Forms.CheckBox();
+			this.dSmartReplace = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// dSetRoot
@@ -142,11 +144,37 @@
 			this.dClean.Text = "Clean";
 			this.dClean.UseVisualStyleBackColor = true;
 			// 
+			// dWords
+			// 
+			this.dWords.AutoSize = true;
+			this.dWords.Checked = true;
+			this.dWords.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.dWords.Location = new System.Drawing.Point(115, 142);
+			this.dWords.Name = "dWords";
+			this.dWords.Size = new System.Drawing.Size(57, 17);
+			this.dWords.TabIndex = 11;
+			this.dWords.Text = "Words";
+			this.dWords.UseVisualStyleBackColor = true;
+			// 
+			// dSmartReplace
+			// 
+			this.dSmartReplace.AutoSize = true;
+			this.dSmartReplace.Checked = true;
+			this.dSmartReplace.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.dSmartReplace.Location = new System.Drawing.Point(178, 142);
+			this.dSmartReplace.Name = "dSmartReplace";
+			this.dSmartReplace.Size = new System.Drawing.Size(96, 17);
+			this.dSmartReplace.TabIndex = 12;
+			this.dSmartReplace.Text = "Smart Replace";
+			this.dSmartReplace.UseVisualStyleBackColor = true;
+			// 
 			// PlayListSaver
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(603, 307);
+			this.Controls.Add(this.dSmartReplace);
+			this.Controls.Add(this.dWords);
 			this.Controls.Add(this.dClean);
 			this.Controls.Add(this.dOutput);
 			this.Controls.Add(this.dCompileResults);
@@ -176,5 +204,7 @@
 		private System.Windows.Forms.TextBox dOutput;
 		private System.ComponentModel.BackgroundWorker dCompiler;
 		private System.Windows.Forms.CheckBox dClean;
+		private System.Windows.Forms.CheckBox dWords;
+		private System.Windows.Forms.CheckBox dSmartReplace;
 	}
 }
