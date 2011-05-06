@@ -25,23 +25,7 @@ namespace PrettyGood.SpotifyTest
 		{
 			try
 			{
-				dOutput.Text = "";
 				if (sfd.ShowDialog() != DialogResult.OK) return;
-				List<string> lines = new List<string>();
-
-				foreach (var d in data)
-				{
-					var l = mdata.getPath(d.Artist, d.Album, d.Title, d.Tracknumber);
-					if (l != "")
-					{
-						lines.Add(l);
-					}
-					else
-					{
-						dOutput.AppendText(string.Format("Missing from library: {0} - {1} - {2}\r\n", d.Artist, d.Title, d.Album));
-					}
-				}
-
 				File.WriteAllLines(sfd.FileName, lines.ToArray());
 			}
 			catch (Exception ex)
@@ -64,7 +48,15 @@ namespace PrettyGood.SpotifyTest
 
 		private void PlayListSaver_Load(object sender, EventArgs e)
 		{
-			dSave.Enabled = data != null;
+			enableSave();
+		}
+
+		private void enableSave()
+		{
+			if (data == null) data = new List<Data>();
+			bool hasData = data.Count > 0;
+			dMapMusic.Enabled = hasData;
+			dSave.Enabled = hasData;
 		}
 
 		class CompileData
@@ -78,64 +70,146 @@ namespace PrettyGood.SpotifyTest
 		MusicData mdata = new MusicData();
 		private void dCompile_Click(object sender, EventArgs e)
 		{
-			dCompileResults.Text = "Compiling";
+			dCompileStatus.Text = "Compiling";
 			dCompile.Enabled = false;
 			dSave.Enabled = false;
+			dMapMusic.Enabled = false;
 			dCompiler.RunWorkerAsync(new CompileData { list = new List<string>(Util.Strings.RemoveEmpty(dRoots.Lines)), Clean = dClean.Checked, SmartReplace=dSmartReplace.Checked, Words=dWords.Checked });
+		}
+
+		class CompileResult
+		{
+			public MusicData mdata = new MusicData();
+			public List<string> log = new List<string>();
+			public Exception ex = null;
 		}
 
 		private void dCompiler_DoWork(object sender, DoWorkEventArgs e)
 		{
+			CompileResult result = new CompileResult();
 			try
 			{
 				var da = (CompileData)e.Argument;
-				MusicData mdata = new MusicData { Clean = da.Clean, SmartReplace=da.SmartReplace, Words=da.Words };
-				// move to a comile step?
+				result.mdata = new MusicData { Clean = da.Clean, SmartReplace = da.SmartReplace, Words = da.Words };
+
 				List<string> files = new List<string>();
 				foreach (string l in da.list)
 				{
-					files.AddRange(mdata.getFiles(l));
+					files.AddRange(result.mdata.getFiles(l));
 				}
 				for (int i = 0; i < files.Count; ++i)
 				{
 					var l = files[i];
-					mdata.add(l);
+					result.mdata.add(l, ref result.log);
 					if (i % 20 == 0)
 					{
-						dCompiler.ReportProgress((int)((100.0f * i) / files.Count), mdata.Count);
+						dCompiler.ReportProgress((int)((100.0f * i) / files.Count), result.mdata.Count);
 					}
 				}
 
-				e.Result = mdata;
+				result.log.Add("-----------------------------");
+				result.log.Add(string.Format("found {0} entries", result.mdata.Count));
 			}
 			catch (Exception ex)
 			{
-				e.Result = ex;
+				result.log.Add(string.Format("Error: {0}", ex.Message));
+				result.ex = ex;
 			}
+
+			e.Result = result;
 		}
 
 		private void dCompiler_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-			dCompileResults.Text = string.Format("Compiling ({0}%) found {1}", e.ProgressPercentage, e.UserState);
+			dCompileStatus.Text = string.Format("Compiling ({0}%) found {1}", e.ProgressPercentage, e.UserState);
 		}
+
+		List<string> log = new List<string>();
 
 		private void dCompiler_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			dCompile.Enabled = true;
-			dSave.Enabled = true;
+			enableSave();
 			string result = "";
-			if (e.Result is Exception)
+			var r = (CompileResult)e.Result;
+			mdata = r.mdata;
+			log = r.log;
+			
+			if( r.ex != null )
 			{
-				var x = (Exception) e.Result;
-				mdata = new MusicData();
-				result = x.ToString();
+				result = r.ex.ToString();
 			}
 			else
 			{
-				mdata = (MusicData)e.Result;
 				result = string.Format("Found {0} songs", mdata.Count);
 			}
-			dCompileResults.Text = result;
+			dCompileStatus.Text = result;
+		}
+
+		private void dShowCompilationResults_Click(object sender, EventArgs e)
+		{
+			new LogDisplay(log).ShowDialog(this);
+		}
+
+		List<string> lines;
+
+		private void dMapMusic_Click(object sender, EventArgs e)
+		{
+			dOutput.Items.Clear();
+			lines = new List<string>();
+
+			foreach (var d in data)
+			{
+				var l = mdata.getPath(d.Artist, d.Album, d.Title, d.Tracknumber);
+				if (l != "")
+				{
+					lines.Add(l);
+				}
+				else
+				{
+					var lvi = new ListViewItem(string.Format("Missing from library: {0} - {1} - {2}\r\n", d.Artist, d.Title, d.Album));
+					lvi.Tag = d;
+					dOutput.Items.Add(lvi);
+				}
+			}
+		}
+
+		private void dMapWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+
+		}
+
+		private void dMapWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+		{
+
+		}
+
+		private void dMapWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+
+		}
+
+		private void dOutput_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+		}
+
+		private IEnumerable<Data> SelectedData()
+		{
+			foreach (ListViewItem i in dOutput.SelectedItems)
+			{
+				yield return (Data)i.Tag;
+			}
+		}
+
+		private void overideArtistToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (sfd.ShowDialog() != DialogResult.OK) return;
+			List<string> errors = new List<string>();
+			var info = MusicData.ExtractInformation(sfd.FileName, ref errors);
+			foreach (var d in SelectedData())
+			{
+				mdata.overideArtist(d.Artist, info.Artist);
+			}
 		}
 	}
 }
