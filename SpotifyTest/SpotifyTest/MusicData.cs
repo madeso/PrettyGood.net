@@ -199,7 +199,9 @@ namespace PrettyGood.SpotifyTest
 
 		internal void overideArtist(string from, string to)
 		{
-			artistOverrids.Add(getArtistId(from), getArtistId(to));
+            var f = getArtistId(from);
+            if( artistOverrids.ContainsKey(f) == false )
+			    artistOverrids.Add(f, getArtistId(to));
 		}
 	}
 }

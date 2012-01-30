@@ -203,9 +203,9 @@ namespace PrettyGood.SpotifyTest
 
 		private void overideArtistToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if (sfd.ShowDialog() != DialogResult.OK) return;
+			if (ofd.ShowDialog() != DialogResult.OK) return;
 			List<string> errors = new List<string>();
-			var info = MusicData.ExtractInformation(sfd.FileName, ref errors);
+			var info = MusicData.ExtractInformation(ofd.FileName, ref errors);
 			foreach (var d in SelectedData())
 			{
 				mdata.overideArtist(d.Artist, info.Artist);

@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C# Express 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoveEmptyDirectories", "RemoveEmptyDirectories\RemoveEmptyDirectories.csproj", "{797F6522-6263-4280-8A6E-E8A6B9CA6667}"
 EndProject
 Global
