@@ -17,6 +17,14 @@ namespace PrettyGood.SpotifyTest
 		public MainWindow()
 		{
 			InitializeComponent();
+
+            Language.Current.Core.Start.bind(dStart);
+            Language.Current.Core.Stop.bind(dAbort);
+            Language.Current.Core.SaveXml.bind(dSaveXml);
+            Language.Current.Core.SavePlaylist.bind(dSavePlaylist);
+            Language.Current.Core.ChangeLanguage.bind(dChangeLang);
+            Language.Current.Core.SelectOneOrMoreTracksInSpotify.bind(label1);
+
 			updateActions();
 			updateButtons();
 		}
@@ -169,5 +177,10 @@ namespace PrettyGood.SpotifyTest
 			pl.data = data;
 			pl.ShowDialog(this);
 		}
+
+        private void dChangeLang_Click(object sender, EventArgs e)
+        {
+            PrettyGood.Localization.LanguageDialog.Edit(Language.Current);
+        }
 	}
 }

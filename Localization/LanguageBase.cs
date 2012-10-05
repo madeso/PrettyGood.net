@@ -5,7 +5,7 @@ using System.Xml;
 using System.Reflection;
 using PrettyGood.Util;
 
-namespace Localization
+namespace PrettyGood.Localization
 {
 	public class LanguageBase : Module
 	{

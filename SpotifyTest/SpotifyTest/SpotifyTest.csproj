@@ -57,6 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Language.cs" />
     <Compile Include="LogDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +110,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Localization\Localization.csproj">
+      <Project>{261C0B53-8652-4BEE-A7AD-567316595966}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Util\Util.csproj">
       <Project>{B65C01A8-C0D2-4A62-BE74-848FAC08CCB7}</Project>
       <Name>Util</Name>

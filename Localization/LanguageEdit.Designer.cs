@@ -1,4 +1,4 @@
-namespace Localization
+namespace PrettyGood.Localization
 {
 	partial class LanguageEdit
 	{

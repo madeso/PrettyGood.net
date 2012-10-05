@@ -6,7 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Localization
+namespace PrettyGood.Localization
 {
 	public partial class LanguageEdit : UserControl
 	{
