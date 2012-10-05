@@ -81,21 +81,33 @@ namespace SlnDeps
 
 			internal void loadInformation()
 			{
-				var f = File.ReadAllText(Path);
-				//throw new NotImplementedException();
+				var p = Gen(Path);
+				if (File.Exists(p) == false) return;
 				XmlDocument doc = new XmlDocument();
-				doc.Load(Path);
+				doc.Load(p);
 				var l = new List<string>();
 				foreach (XmlElement n in doc.SelectNodes("VisualStudioProject/Configurations/Configuration[@ConfigurationType]"))
 				{
 					var v = n.Attributes["ConfigurationType"].Value;
 					if( l.Contains(v) == false ) l.Add(v);
 				}
-				var suggestedType = l[0];
 				Type = Build.Unknown;
-				if (suggestedType == "2") Type = Build.Shared;
-				else if (suggestedType == "4") Type = Build.Static;
-				else if (suggestedType == "1") Type = Build.Application;
+				if (l.Count != 0)
+				{
+					var suggestedType = l[0];
+					if (suggestedType == "2") Type = Build.Shared;
+					else if (suggestedType == "4") Type = Build.Static;
+					else if (suggestedType == "1") Type = Build.Application;
+				}
+			}
+
+			private static string Gen(string pa)
+			{
+				var p = pa;
+				if (File.Exists(p)) return p;
+				p = pa + ".vcxproj";
+				if (File.Exists(p)) return p;
+				return "";
 			}
 		}
 
@@ -149,6 +161,10 @@ namespace SlnDeps
 						var id = line.Split("=".ToCharArray())[0].Trim();
 						depProject.sdeps.Add(id);
 					}
+					else
+					{
+						Console.Write("");
+					}
 				}
 
 				if (dosimplify) simplify();
@@ -174,7 +190,7 @@ namespace SlnDeps
 				get
 				{
 					List<string> lines = new List<string>();
-					lines.Add("digraph " + Name + " {");
+					lines.Add("digraph " + Name.Replace("-", "_") + " {");
 
 					lines.Add("/* projects */");
 					lines.Add("");
