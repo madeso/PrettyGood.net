@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Localization")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("strusoft")]
+[assembly: AssemblyCompany("gustav")]
 [assembly: AssemblyProduct("Localization")]
-[assembly: AssemblyCopyright("Copyright © strusoft 2008")]
+[assembly: AssemblyCopyright("Copyright © gustav 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
