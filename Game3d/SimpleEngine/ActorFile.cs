@@ -105,9 +105,9 @@ namespace SimpleEngine
             List<AnimationInformation> animinfo = new List<AnimationInformation>();
             foreach (XmlElement e in Xml.ElementsNamed(root, "animation"))
             {
-                string ss = Xml.GetAttributeString(e, "from");
-                string se = Xml.GetAttributeString(e, "to");
-                string name = Xml.GetAttributeString(e, "name");
+                string ss = Xml.GetTextOfSubElement(e, "start");
+                string se = Xml.GetTextOfSubElement(e, "end");
+                string name = Xml.GetTextOfSubElement(e, "name");
                 int start = int.Parse(ss);
                 int end = int.Parse(se);
                 animinfo.Add(new AnimationInformation(start, end, name));

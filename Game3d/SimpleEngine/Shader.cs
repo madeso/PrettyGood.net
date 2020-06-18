@@ -12,7 +12,8 @@ namespace SimpleEngine
         public ShaderSource(string name, string source, int type)
         {
             mShader = Gl.glCreateShader(type);
-            Gl.glShaderSource(Shader, 1, new string[] { source }, new int[] { source.Length });
+            var src = new string[] { source };
+            Gl.glShaderSource(Shader, 1, ref src, new int[] { source.Length });
             Gl.glCompileShader(mShader);
 
             if (false == CompileStatus)
@@ -26,11 +27,11 @@ namespace SimpleEngine
             int size;
             Gl.glGetShaderiv(Shader, Gl.GL_INFO_LOG_LENGTH, out size);
 
-            StringBuilder log = new StringBuilder();
+            string log;
             int length;
-            Gl.glGetShaderInfoLog(Shader, size, out length, log);
+            Gl.glGetShaderInfoLog(Shader, size, out length, out log);
 
-            return log.ToString();
+            return log;
         }
 
         private int mShader;
@@ -63,7 +64,7 @@ namespace SimpleEngine
 
         internal Uniform(Shader s, string name)
         {
-            var = Gl.glGetUniformLocation(s.Program, name);
+            var = Gl.glGetUniformLocation(s.Program, ref name);
             if (var == -1) throw new Exception(name + " is not a recognized uniform");
         }
 
@@ -156,11 +157,11 @@ namespace SimpleEngine
             int size;
             Gl.glGetProgramiv(Program, Gl.GL_INFO_LOG_LENGTH, out size);
 
-            StringBuilder log = new StringBuilder();
+            string log;
             int length;
-            Gl.glGetProgramInfoLog(Program, size, out length, log);
+            Gl.glGetProgramInfoLog(Program, size, out length, out log);
 
-            return log.ToString();
+            return log;
         }
 
         private void attach(ShaderSource src)
@@ -190,8 +191,8 @@ namespace SimpleEngine
         {
             get
             {
-                bool hasVertex = Gl.IsExtensionSupported("GL_ARB_vertex_shader");
-                bool hasFragment = Gl.IsExtensionSupported("GL_ARB_fragment_shader");
+                bool hasVertex = true;// Gl.IsExtensionSupported("GL_ARB_vertex_shader");
+                bool hasFragment = true; // Gl.IsExtensionSupported("GL_ARB_fragment_shader");
                 return hasVertex && hasFragment;
             }
         }

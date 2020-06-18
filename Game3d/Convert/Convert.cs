@@ -17,6 +17,7 @@ namespace Convert
             string filename = Path.GetFileName(filepath);
             FileSystem fs = new FileSystem();
             fs.addRoot(dir);
+            fs.addRoot(Environment.CurrentDirectory);
 
             Actor actor = ActorFile.Load(fs, filename);
 

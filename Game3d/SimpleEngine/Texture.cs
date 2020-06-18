@@ -10,7 +10,7 @@ namespace SimpleEngine
 {
     internal class Image : IDisposable
     {
-        int text;
+        int text = 0;
 
         internal int Id
         {
@@ -22,6 +22,7 @@ namespace SimpleEngine
 
         public Image(bool alpha, int width, int height, IntPtr bitmapData, bool mipmap, int format)
         {
+            /*
             Gl.glGenTextures(1, out text);
             bind();
             int internalformat = alpha ? Gl.GL_RGBA8 : Gl.GL_RGB8;
@@ -33,7 +34,7 @@ namespace SimpleEngine
             if (mipmap)
             {
                 Gl.glGenerateMipmapEXT(Gl.GL_TEXTURE_2D);
-            }
+            }*/
         }
 
         public void bind()
@@ -42,13 +43,13 @@ namespace SimpleEngine
         }
         public void bind(int location)
         {
-            Gl.glActiveTexture(Gl.GL_TEXTURE0 + location);
-            Gl.glBindTexture(Gl.GL_TEXTURE_2D, text);
+            //Gl.glActiveTexture(Gl.GL_TEXTURE0 + location);
+            //Gl.glBindTexture(Gl.GL_TEXTURE_2D, text);
         }
 
         public void Dispose()
         {
-            Gl.glDeleteTextures(1, ref text);
+            //Gl.glDeleteTextures(1, ref text);
         }
     }
 

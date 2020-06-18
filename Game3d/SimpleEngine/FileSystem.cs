@@ -30,7 +30,7 @@ namespace SimpleEngine
         private Stream doOpen(string path)
         {
             if (path.Contains("..")) throw new Exception("do not specify parent directory");
-            string p = path.Replace(':', Path.DirectorySeparatorChar);
+            string p = path;//.Replace(':', Path.DirectorySeparatorChar);
             foreach (string r in roots)
             {
                 string fp = Path.Combine(r, p);
