@@ -18,12 +18,12 @@ namespace PrettyGood.SpotifyTest
 		{
 			InitializeComponent();
 
-            Language.Current.Core.Start.bind(dStart);
-            Language.Current.Core.Stop.bind(dAbort);
-            Language.Current.Core.SaveXml.bind(dSaveXml);
-            Language.Current.Core.SavePlaylist.bind(dSavePlaylist);
-            Language.Current.Core.ChangeLanguage.bind(dChangeLang);
-            Language.Current.Core.SelectOneOrMoreTracksInSpotify.bind(label1);
+            // Language.Current.Core.Start.bind(dStart);
+            // Language.Current.Core.Stop.bind(dAbort);
+            // Language.Current.Core.SaveXml.bind(dSaveXml);
+            // Language.Current.Core.SavePlaylist.bind(dSavePlaylist);
+            // Language.Current.Core.ChangeLanguage.bind(dChangeLang);
+            // Language.Current.Core.SelectOneOrMoreTracksInSpotify.bind(label1);
 
 			updateActions();
 			updateButtons();
@@ -180,7 +180,7 @@ namespace PrettyGood.SpotifyTest
 
         private void dChangeLang_Click(object sender, EventArgs e)
         {
-            PrettyGood.Localization.LanguageDialog.Edit(Language.Current);
+            // PrettyGood.Localization.LanguageDialog.Edit(Language.Current);
         }
 	}
 }

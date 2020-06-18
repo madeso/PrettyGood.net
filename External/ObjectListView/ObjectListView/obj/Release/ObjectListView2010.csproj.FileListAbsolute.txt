@@ -1,9 +1,0 @@
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\bin\Release\ObjectListView.dll
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\bin\Release\ObjectListView.pdb
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\ResolveAssemblyReference.cache
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\BrightIdeasSoftware.Properties.Resources.resources
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\BrightIdeasSoftware.ColumnSelectionForm.resources
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\ResGen.read.1.tlog
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\ResGen.write.1.tlog
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\ObjectListView.dll
-C:\Users\Gustav\dev\PrettyGood\External\ObjectListView\ObjectListView\obj\Release\ObjectListView.pdb

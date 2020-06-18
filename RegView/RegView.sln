@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30104.148
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegView", "RegView\RegView.csproj", "{01FEC091-0FBB-4ADD-BDCB-926BBFAC447C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nini", "..\..\..\external\Nini\Source\Nini.csproj", "{9B920C90-08EF-4123-A6B7-5F25CF0F94EC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,12 +15,11 @@ Global
 		{01FEC091-0FBB-4ADD-BDCB-926BBFAC447C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01FEC091-0FBB-4ADD-BDCB-926BBFAC447C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01FEC091-0FBB-4ADD-BDCB-926BBFAC447C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9B920C90-08EF-4123-A6B7-5F25CF0F94EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9B920C90-08EF-4123-A6B7-5F25CF0F94EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9B920C90-08EF-4123-A6B7-5F25CF0F94EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9B920C90-08EF-4123-A6B7-5F25CF0F94EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD75BBF9-FB90-4141-A698-996D519873AC}
 	EndGlobalSection
 EndGlobal

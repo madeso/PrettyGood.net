@@ -21,6 +21,7 @@ namespace HeaderParser
 		{
 			foreach (var x in excludes)
 			{
+				if(string.IsNullOrEmpty(x)) continue;
 				if (p.StartsWith(x)) return true;
 			}
 			return false;

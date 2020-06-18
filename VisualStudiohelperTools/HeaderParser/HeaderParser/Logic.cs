@@ -39,7 +39,7 @@ namespace HeaderParser
 								case MissingFileAction.Ignore:
 									break;
 								case MissingFileAction.NoParse:
-									path = file;
+									path = f;
 									break;
 								case MissingFileAction.Throw:
 									throw new Exception("Missing file " + file);
