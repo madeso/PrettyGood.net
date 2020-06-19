@@ -2,6 +2,7 @@
 
 Pretty good .net tools and libraries from around 2009-2011. Do not use, mostly just kept around for archival purposes.
 
+---
 
 ## Working (and potentially useful)
 
@@ -24,7 +25,7 @@ Program (in swedish) to calculate bmi and some other data
 ### PathFinder
 A explorer replacement merged with a terminal interface with autocompletion (sounds better than what it is)
 
-
+---
 
 ## Build and runs (but doesn't really work)
 
@@ -53,7 +54,7 @@ Custom reflection based localization, never figured out how to properly handle "
 ### LastFm/LastFmApp
 Old demo of some last.fm interface (doesnt work anymore)
 
-
+---
 
 ## Missing dependencies
 
