@@ -16,6 +16,9 @@ recursivly remove "empty" directories and/or recursivly show hidden files and di
 ### HeaderParser
 Generates a dependency graph of included c++ headers visualized with graphviz tools (complete with crappy c++ parsing)
 
+### SeriesNamer
+Extract meta data from files, format it and move the files based on the data extracted
+
 ### slndeps2
 Generates a graphviz dependency from a visual studio project, a improved version of slndeps for modernish solutions
 
