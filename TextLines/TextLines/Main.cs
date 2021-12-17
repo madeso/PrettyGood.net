@@ -91,5 +91,26 @@ namespace TextLines
 			ss.Sort();
 			return ss;
 		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			List<string> ss = new List<string>();
+
+			var m = dFilter.Text;
+
+			foreach (var s in Lines)
+			{
+				if (s.Contains(m))
+				{
+					// pass
+				}
+				else
+				{
+					ss.Add(s);
+				}
+			}
+
+			Lines = ss;
+		}
 	}
 }
